@@ -1,0 +1,25 @@
+{
+  "name": "everything-friendly",
+  "version": "1.0.0",
+  "description": "app to convert recipes to fit dietary restrictions",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jax644/everything-friendly.git"
+  },
+  "author": "Jacqueline Taylor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jax644/everything-friendly/issues"
+  },
+  "homepage": "https://github.com/jax644/everything-friendly#readme",
+  "dependencies": {
+    "@julianpoy/recipe-clipper": "^3.1.0",
+    "express": "^4.21.2",
+    "puppeteer": "^23.11.1"
+  }
+}
