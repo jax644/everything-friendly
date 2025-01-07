@@ -8,6 +8,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use(express.static('public'));
 
 // URL validation
 function isValidUrl(string) {
@@ -19,9 +20,14 @@ function isValidUrl(string) {
     }
 }
 
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html')
+})
+
 // Handle URL submission
 app.post('/api/parse-recipe', async (req, res) => {
     // Retrieve and validate URL
+    console.log(req)
     const { url } = req.body;
 
     if (!url) {
