@@ -4,22 +4,20 @@ const RecipeClipper = require('@julianpoy/recipe-clipper');
 const jsdom =  require("jsdom");
 const sanitizeHtml = require("sanitize-html");
 const axios = require('axios')
-const Anthropic = require('@anthropic-ai/sdk')
+const Anthropic = require("@anthropic-ai/sdk")
 
 require('dotenv').config()
 
 const app = express();
 const PORT = 3000;
 
-app.use(express.json());
-app.use(express.static('public'));
-
 const anthropic = new Anthropic({
-    // Make sure you set an environment variable in Scrimba 
-    // for ANTHROPIC_API_KEY
     apiKey: process.env.CLAUDE_API_KEY,
     dangerouslyAllowBrowser: true,
 })
+
+app.use(express.json());
+app.use(express.static('public'));
 
 // URL validation
 function isValidUrl(string) {
@@ -54,21 +52,21 @@ app.post('/api/parse-recipe', async (req, res) => {
         let stringifiedRecipeData = JSON.stringify(recipeData)
 
         // Send recipe data to Anthropic for processing
-        const prompt = `You are a recipe assistant who takes in recipes and return vegan versions of those recipes. Your versions can omit ingredients or make appropriate subsitutions as needed. Please return your recipe in the same format you receieved it.`;
+        const prompt = 'You are a recipe assistant who takes in recipes and return vegan versions of those recipes. Your versions can omit ingredients or make appropriate subsitutions as needed.';
 
         const response = await anthropic.messages.create({
               model: "claude-3-haiku-20240307",
-              system: prompt,
               max_tokens: 1024,
+              system: prompt,
               messages: [
-                { role: "user", content: `I have ${stringifiedRecipeData}, which is JSON data of a recipe. Please give me a vegan version of this recipe!` },
-            ]
-            });
+                { role: "user", content: `Please give me a veganized version of ${stringifiedRecipeData} - Thank you!` },
+            ], 
+        });
 
         // Respond with processed recipe data as JSON
-        res.json({ reply: response });
+        res.json({ reply: response.content[0].text });
     } catch (error) {
-        console.error('Error in POST handler:', error);
+        console.error('Error in POST handler:', error.response.data);
         res.status(500).json({ error: 'Error scraping the recipe' });
     }
 });
