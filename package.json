@@ -20,6 +20,8 @@
   "dependencies": {
     "@julianpoy/recipe-clipper": "^3.1.0",
     "express": "^4.21.2",
-    "puppeteer": "^23.11.1"
+    "jsdom": "^25.0.1",
+    "puppeteer": "^23.11.1",
+    "sanitize-html": "^2.14.0"
   }
 }
