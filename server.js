@@ -3,12 +3,23 @@ const puppeteer = require('puppeteer');
 const RecipeClipper = require('@julianpoy/recipe-clipper');
 const jsdom =  require("jsdom");
 const sanitizeHtml = require("sanitize-html");
+const axios = require('axios')
+const Anthropic = require('@anthropic-ai/sdk')
+
+require('dotenv').config()
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 app.use(express.static('public'));
+
+const anthropic = new Anthropic({
+    // Make sure you set an environment variable in Scrimba 
+    // for ANTHROPIC_API_KEY
+    apiKey: process.env.CLAUDE_API_KEY,
+    dangerouslyAllowBrowser: true,
+})
 
 // URL validation
 function isValidUrl(string) {
@@ -27,7 +38,6 @@ app.get('/', (req, res) => {
 // Handle URL submission
 app.post('/api/parse-recipe', async (req, res) => {
     // Retrieve and validate URL
-    console.log(req)
     const { url } = req.body;
 
     if (!url) {
@@ -37,11 +47,26 @@ app.post('/api/parse-recipe', async (req, res) => {
     if (!isValidUrl(url)) {
         return res.status(400).json({ error: 'Invalid URL format' });
     }
-
-    // Respond with recipe data as JSON
+    
     try {
         const recipeData = await clipRecipeFromUrl(url);
-        res.json(recipeData);
+
+        let stringifiedRecipeData = JSON.stringify(recipeData)
+
+        // Send recipe data to Anthropic for processing
+        const prompt = `You are a recipe assistant who takes in recipes and return vegan versions of those recipes. Your versions can omit ingredients or make appropriate subsitutions as needed. Please return your recipe in the same format you receieved it.`;
+
+        const response = await anthropic.messages.create({
+              model: "claude-3-haiku-20240307",
+              system: prompt,
+              max_tokens: 1024,
+              messages: [
+                { role: "user", content: `I have ${stringifiedRecipeData}, which is JSON data of a recipe. Please give me a vegan version of this recipe!` },
+            ]
+            });
+
+        // Respond with processed recipe data as JSON
+        res.json({ reply: response });
     } catch (error) {
         console.error('Error in POST handler:', error);
         res.status(500).json({ error: 'Error scraping the recipe' });
@@ -75,9 +100,15 @@ const clipRecipeFromUrl = async function(clipUrl) {
     });
   };
 
+// const replaceBrWithBreak = (html) => {
+// return html.replaceAll(new RegExp(/<br( \/)?>/, "g"), "\n");
+// };
+
 const replaceBrWithBreak = (html) => {
-return html.replaceAll(new RegExp(/<br( \/)?>/, "g"), "\n");
-};
+    // remove 
+    // replace br with break
+    return html.replaceAll(new RegExp(/<br( \/)?>/, "g"), "\n");
+    };
 
 // Set up server to listen on the specified port
 app.listen(PORT, () => {

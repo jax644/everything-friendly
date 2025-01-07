@@ -1,9 +1,9 @@
 // Add event listener for form submission
-document.getElementById('recipeForm').addEventListener('submit', async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
+document.getElementById('recipeForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
     
-    const urlInput = document.getElementById('url').value; // Get the input value
-    const recipeContainer = document.getElementById('recipeContainer'); // Get the container
+    const urlInput = document.getElementById('url').value
+    const recipeContainer = document.getElementById('recipeContainer')
     
     // Clear previous results
     recipeContainer.textContent = 'Loading...';
