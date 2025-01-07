@@ -3,6 +3,9 @@ document.getElementById('recipeForm').addEventListener('submit', async (event) =
     event.preventDefault();
     
     const urlInput = document.getElementById('url').value
+    const prefInput = document.getElementById('preferences').value
+    console.log(`prefInput is ${prefInput}`)
+
     const recipeContainer = document.getElementById('recipeContainer')
     
     // Clear previous results
@@ -15,7 +18,7 @@ document.getElementById('recipeForm').addEventListener('submit', async (event) =
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ url: urlInput }),
+            body: JSON.stringify({ url: urlInput, preferences: prefInput }),
         });
 
         // Check if the response is OK

@@ -36,10 +36,16 @@ app.get('/', (req, res) => {
 // Handle URL submission
 app.post('/api/parse-recipe', async (req, res) => {
     // Retrieve and validate URL
-    const { url } = req.body;
+    const { url, preferences } = req.body;
+
+    console.log(req.body)
 
     if (!url) {
         return res.status(404).json({ error: 'URL is required' });
+    }
+
+    if (!preferences) {
+        return res.status(404).json({ error: 'Preferences are required' });
     }
 
     if (!isValidUrl(url)) {
@@ -52,14 +58,14 @@ app.post('/api/parse-recipe', async (req, res) => {
         let stringifiedRecipeData = JSON.stringify(recipeData)
 
         // Send recipe data to Anthropic for processing
-        const prompt = 'You are a recipe assistant who takes in recipes and return vegan versions of those recipes. Your versions can omit ingredients or make appropriate subsitutions as needed.';
+        const prompt = 'You are a recipe assistant who takes in recipes and return modified versions of those recipes based on the user\'s dietary preferences. Your versions can omit ingredients or make appropriate subsitutions as needed.';
 
         const response = await anthropic.messages.create({
               model: "claude-3-haiku-20240307",
               max_tokens: 1024,
               system: prompt,
               messages: [
-                { role: "user", content: `Please give me a veganized version of ${stringifiedRecipeData} - Thank you!` },
+                { role: "user", content: `Please give me a version of ${stringifiedRecipeData} that meets my dietary preferences: ${preferences} - Thank you!` },
             ], 
         });
 
