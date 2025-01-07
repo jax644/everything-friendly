@@ -1,3 +1,7 @@
 input {
     width:20em;
 }
+
+img {
+    width: 200px;
+}

@@ -28,9 +28,10 @@ document.getElementById('recipeForm').addEventListener('submit', async (event) =
 
         // Parse the response as JSON
         const recipeData = await response.json();
+        const recipeString = recipeData.reply
 
         // Update the recipe container with the response data
-        recipeContainer.innerHTML = `<pre>${JSON.stringify(recipeData, null, 2)}</pre>`;
+        recipeContainer.innerHTML = `<p>${recipeString}</p>`;
     } catch (error) {
         // Handle errors
         recipeContainer.textContent = `An error occurred: ${error.message}`;
