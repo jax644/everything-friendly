@@ -8,34 +8,60 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lateef:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Normalize.css -->
+    <link rel="stylesheet" href="normalize.css">
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Everything-Friendly</h1>
-    <h2>Any recipe, your way.</h2>
-    <p>Enjoy any online recipe, adjusted to meet your dietary needs and preferences.</p>
+    <header>
+        <h1>Everything-Friendly</h1>
+        <img class="logo" src="EF-leaf.png" alt="leaf icon">
+        <h2>Any recipe, your way.</h2>
+    </header>
+    <main>
+        <p id="description">Enjoy any online recipe, adjusted to meet your dietary needs and preferences.</p>
+        <section id="form-container" class="flex">
+            <form id="recipeForm">
+                <label for="preferences">Enter your dietary preferences</label> <br>
+                <input type="text" name="preferences" id="preferences" placeholder="Vegan, Kosher, I don't like beans" required> <br>
+                
+                <label for="url">Enter a recipe URL</label> <br>
+                <input type="url" name="url" id="url" placeholder="https://www.yummyrecipes.com/cookies/" required> <br>
+                
+                <button type="submit">Make it friendly</button>
+            </form>
+        </section>
+        <section class="loading-container">
+            <img class="leaf-spinner" src="EF-leaf-spinner.png" alt="leaf logo spinning"><br><br>
+            <h1 id="loading">
+                <span>l</span>
+                <span>o</span>
+                <span>a</span>
+                <span>d</span>
+                <span>i</span>
+                <span>n</span>
+                <span>g</span>
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+            </h1>
+        </section>
+        
+        <section id="recipeContainer" flex>
+            <div id="infoContainer">
+                <h1 id="title"></h1>
+            </div>
+            <div id="directionsContainer">
     
-    <div id="form-container" class="flex">
-        <form id="recipeForm">
-            <label for="preferences">Enter your preferences</label> <br>
-            <input type="text" name="preferences" id="preferences" placeholder="Vegan, Kosher, I don't like beans" required> <br>
-            
-            <label for="url">Enter a URL</label> <br>
-            <input type="url" name="url" id="url" placeholder="https://www.yummyrecipes.com/cookies/" required> <br>
-            
-            <button type="submit">Make it friendly</button>
-        </form>
-    </div>
-    
-    <div id="recipeContainer" flex>
-        <div id="infoContainer">
-            <h1 id="title"></h1>
-        </div>
-        <div id="directionsContainer">
+            </div>
+        </section>
 
-        </div>
-    </div>
+    </main>
+    
+    
+  
     <script src="main.js"></script>
 </body>
 </html>
