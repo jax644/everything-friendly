@@ -4,22 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Everything-Friendly</title>
+    <!-- Google fonts: Lateef (heades), Inter (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lateef:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Any recipe, your way.</h1>
+    <h1>Everything-Friendly</h1>
+    <h2>Any recipe, your way.</h2>
     <p>Enjoy any online recipe, adjusted to meet your dietary needs and preferences.</p>
-    <form id="recipeForm">
-        <label for="preferences">Enter your preferences</label>
-        <input type="text" name="preferences" id="preferences" placeholder="Vegan, Kosher, I don't like beans" required> <br>
-        
-        <label for="url">Enter a URL</label>
-        <input type="url" name="url" id="url" placeholder="https://www.yummyrecipes.com/cookies/" required> <br>
-        
-        <button type="submit">Submit</button>
-    </form>
-    <div id="recipeContainer">
+    
+    <div id="form-container" class="flex">
+        <form id="recipeForm">
+            <label for="preferences">Enter your preferences</label> <br>
+            <input type="text" name="preferences" id="preferences" placeholder="Vegan, Kosher, I don't like beans" required> <br>
+            
+            <label for="url">Enter a URL</label> <br>
+            <input type="url" name="url" id="url" placeholder="https://www.yummyrecipes.com/cookies/" required> <br>
+            
+            <button type="submit">Make it friendly</button>
+        </form>
+    </div>
+    
+    <div id="recipeContainer" flex>
+        <div id="infoContainer">
+            <h1 id="title"></h1>
+        </div>
+        <div id="directionsContainer">
 
+        </div>
     </div>
     <script src="main.js"></script>
 </body>
