@@ -58,7 +58,7 @@ app.post('/api/parse-recipe', async (req, res) => {
         let stringifiedRecipeData = JSON.stringify(recipeData)
 
         // Send recipe data to Anthropic for processing
-        const prompt = 'You are a recipe assistant who takes in recipes and return modified versions of those recipes based on the user\'s dietary preferences. Please respond with a modified recipe as JSON data in the same format you recieved it. Do not include anything other than JSON in your response. Thank you!'
+        const prompt = 'You are a recipe assistant who takes in recipes and return modified versions of those recipes based on the user\'s dietary preferences. Please respond with a modified recipe as JSON data in the same format you recieved it. For the ingredients and instructions, please format the values as arrays and not with new lines. Do not include anything other than JSON in your response. No preamble, explanations, or text beyond the JSON structure.  Thank you!'
 
         const response = await anthropic.messages.create({
               model: "claude-3-haiku-20240307",

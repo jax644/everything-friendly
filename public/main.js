@@ -34,7 +34,7 @@ document.getElementById('recipe-form').addEventListener('submit', async (event) 
         const recipeData = claudeResponse.reply
 
         const recipeJSON = cleanAndParseJSON(recipeData)
-        console.log(`recipeJSON: ${recipeJSON}`)
+        console.log(recipeJSON)
 
         function cleanAndParseJSON(inputString) {
             try {
@@ -77,10 +77,18 @@ document.getElementById('recipe-form').addEventListener('submit', async (event) 
         totalTime.textContent = recipeJSON.totalTime
 
         const ingredients = document.getElementById('recipe-ingredients')
-        ingredients.textContent = recipeJSON.ingredients
+        for (let i = 0; i < recipeJSON.ingredients.length; i++) {
+            const li = document.createElement('li')
+            li.textContent = recipeJSON.ingredients[i]
+            ingredients.appendChild(li)
+        }
 
         const instructions = document.getElementById('recipe-instructions')
-        instructions.textContent = recipeJSON.instructions
+        for (let i = 0; i < recipeJSON.instructions.length; i++) {
+            const li = document.createElement('li')
+            li.textContent = recipeJSON.instructions[i]
+            instructions.appendChild(li)
+        }
 
         recipeContainer.style.display = 'block'
         // recipeContainer.innerHTML = `<p>${recipeJSON}</p>`;
