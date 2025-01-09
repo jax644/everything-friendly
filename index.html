@@ -20,8 +20,10 @@
         <img class="logo" src="EF-leaf.png" alt="leaf icon">
         <h2>Any recipe, your way.</h2>
     </header>
-    <main>
+    <main class="flex-column">
         <p id="description">Enjoy any online recipe, adjusted to meet your dietary needs and preferences.</p>
+        
+        <!-- Recipe request form -->
         <section id="form-container" class="flex">
             <form id="recipeForm">
                 <label for="preferences">Enter your dietary preferences</label> <br>
@@ -33,6 +35,8 @@
                 <button type="submit">Make it friendly</button>
             </form>
         </section>
+
+        <!-- Loading animation -->
         <section class="loading-container">
             <img class="leaf-spinner" src="EF-leaf-spinner.png" alt="leaf logo spinning"><br><br>
             <h1 id="loading">
@@ -49,16 +53,56 @@
             </h1>
         </section>
         
-        <section id="recipeContainer" flex>
-            <div id="infoContainer">
-                <h1 id="title"></h1>
+        <!-- Recipe results -->
+        <section id="recipe-container" class="flex-column">
+            <h1 id="recipe-title">Vegan Avocado Toast</h2>
+            <hr>
+            <div id="recipe-details" class="flex">
+                <div id="recipe-column-1" class="flex-column">
+                    <span id="recipe-description">This recipe is soooooo good</span>
+                    <div id="recipe-block-container" class="flex-column">
+                        <div id="recipe-img-container"></div>
+                        <div id="prep-time-container">
+                        <h3>Prep Time:</h3>
+                            <ul>
+                                <li>Total: 10 minutes</li>
+                                <li>Preparation: 5 minutes</li>
+                                <li>Cooking: 5 minutes></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="button-container flex">
+                        <button class="secondary-button">Save PDF</button>
+                        <button id="make-another">Make another recipe</button>
+                    </div>
+                </div>
+                <div id="recipe-column-2">
+                    <h2>Ingredients</h2>
+                    <ul>
+                        <li>Whole wheat bread</li>
+                        <li>1/2 tsp Onion powder</li>
+                        <li>Juice from half of a lemon</li>
+                        <li>Sesame Seeds for garnish</li>
+                        <li>1 medium avocado, sliced</li>
+                        <li>1/2 tsp Garlic powder</li>
+                    </ul>
+                    <h2>Instructions</h2>
+                    <ol>
+                        <li>Toast the bread until crispy.</li>
+                        <li>While the bread is toasting, slice or mash half of an avocado, depending on your preference.</li>
+                        <li>Slice the cherry tomatoes into quarters</li>
+                        <li>When the toast is ready, spread the avocado onto the toast</li>
+                        <li>Top with cherry tomatoes, sesame seeds, garlic powder, and onion powder</li>
+                        <li>Squeeze the lemon juice on top</li>
+                        <li>Serve and enjoy!</li>
+                    </ol>
+                </div>
             </div>
-            <div id="directionsContainer">
-    
-            </div>
-        </section>
 
+
+        </section>
     </main>
+
     
     
   
