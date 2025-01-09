@@ -1,5 +1,5 @@
 // Add event listener for form submission
-document.getElementById('recipeForm').addEventListener('submit', async (event) => {
+document.getElementById('recipe-form').addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const recipeContainer = document.getElementById('recipe-container')
@@ -57,7 +57,7 @@ document.getElementById('recipeForm').addEventListener('submit', async (event) =
 
         // Remove the description, the form and the loading container
         document.getElementById('description').style.display = 'none';
-        document.getElementById('recipeForm').style.display = 'none';
+        document.getElementById('form-container').style.display = 'none';
         loadingContainer.style.display = 'none'
 
         // Update the recipe container with the response data

@@ -145,6 +145,13 @@ form button {
     background-color: aliceblue;
 }
 
+#recipe-img-container img {
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
 .button-container button {
     width: 50%;
     font-size: .75em;
