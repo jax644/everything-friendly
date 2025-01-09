@@ -62,15 +62,24 @@ document.getElementById('recipeForm').addEventListener('submit', async (event) =
 
         // Update the recipe container with the response data
         const title = document.getElementById('recipe-title')   
-        console.log(`recipeJSON.title: ${recipeJSON.title}`) 
         title.textContent = recipeJSON.title
 
+        const image = document.getElementById('recipe-image')
+        image.src = recipeJSON.imageURL
+
+        const yield = document.getElementById('recipe-yield')
+        yield.textContent = recipeJSON.yield
+
+        const prepTime = document.getElementById('prep-time')
+        prepTime.textContent = recipeJSON.activeTime
+
+        const totalTime = document.getElementById('total-time')
+        totalTime.textContent = recipeJSON.totalTime
+
         const ingredients = document.getElementById('recipe-ingredients')
-        console.log(`recipeJSON.ingredients: ${recipeJSON.ingredients}`)
         ingredients.textContent = recipeJSON.ingredients
 
         const instructions = document.getElementById('recipe-instructions')
-        console.log(`recipeJSON.instructions: ${recipeJSON.instructions}`)
         instructions.textContent = recipeJSON.instructions
 
         recipeContainer.style.display = 'block'
