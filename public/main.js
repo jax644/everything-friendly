@@ -43,6 +43,8 @@ document.getElementById('recipe-form').addEventListener('submit', async (event) 
                 .replace(/\\n/g, '') // Remove newline markers
                 .replace(/\\"/g, '"') // Replace escaped quotes
                 .replace(/\\\\/g, '\\'); // Handle double backslashes
+
+            console.log(`cleanedString: ${cleanedString}`)
               
               // Step 2: Parse the cleaned string into a JSON object
               const parsedObject = JSON.parse(cleanedString);
