@@ -119,6 +119,7 @@ form button {
 }
 
 #recipe-details > div{
+    box-sizing: border-box;
     padding: 1em;
     gap:2em;
 }
