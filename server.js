@@ -5,6 +5,9 @@ const jsdom =  require("jsdom");
 const sanitizeHtml = require("sanitize-html");
 const axios = require('axios')
 const Anthropic = require("@anthropic-ai/sdk")
+const cors = require('cors');
+
+app.use(cors())
 
 require('dotenv').config()
 
