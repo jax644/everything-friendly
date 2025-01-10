@@ -107,6 +107,7 @@ form button {
     background-color: white;
     padding: 1em 3em;
     border-radius: 10px;
+    display:none;
 }
 
 #recipe-block-container {
