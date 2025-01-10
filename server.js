@@ -54,8 +54,11 @@ app.post('/api/parse-recipe', async (req, res) => {
     
     try {
         const recipeData = await clipRecipeFromUrl(url);
+        console.log('recipeData:')
+        console.log(recipeData)
 
         let stringifiedRecipeData = JSON.stringify(recipeData)
+        console.log(`stringifiedRecipeData: ${stringifiedRecipeData}`)
 
         // Send recipe data to Anthropic for processing
         const prompt = 'You are a recipe assistant who takes in recipes and return modified versions of those recipes based on the user\'s dietary preferences. Please respond with a modified recipe as JSON data in the same format you recieved it. For the ingredients and instructions, please format the values as arrays and not with new lines. Do not include anything other than JSON in your response. No preamble, explanations, or text beyond the JSON structure.  Thank you!'
@@ -68,11 +71,12 @@ app.post('/api/parse-recipe', async (req, res) => {
                 { role: "user", content: `Please give me a version of ${stringifiedRecipeData} that meets my dietary preferences: ${preferences} - Thank you!` },
             ], 
         });
+        console.log(`response: ${response}`)
 
         // Respond with processed recipe data as JSON
         res.json({ reply: response.content[0].text });
     } catch (error) {
-        console.error('Error in POST handler:', error.response.data);
+        console.error('Error in POST handler:', error.response);
         res.status(500).json({ error: 'Error scraping the recipe' });
     }
 });
