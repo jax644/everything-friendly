@@ -9,7 +9,7 @@ const Anthropic = require("@anthropic-ai/sdk")
 require('dotenv').config()
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const anthropic = new Anthropic({
     apiKey: process.env.CLAUDE_API_KEY,
