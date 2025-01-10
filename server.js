@@ -7,12 +7,12 @@ const axios = require('axios')
 const Anthropic = require("@anthropic-ai/sdk")
 const cors = require('cors');
 
-app.use(cors())
+
 
 require('dotenv').config()
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+app.use(cors())
 
 const anthropic = new Anthropic({
     apiKey: process.env.CLAUDE_API_KEY,
@@ -122,6 +122,9 @@ const replaceBrWithBreak = (html) => {
     };
 
 // Set up server to listen on the specified port
+
+const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
     console.log(`Server running at port ${PORT}`);
 });
