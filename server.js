@@ -74,12 +74,13 @@ app.post('/api/parse-recipe', async (req, res) => {
                 { role: "user", content: `Please give me a version of ${stringifiedRecipeData} that meets my dietary preferences: ${preferences} - Thank you!` },
             ], 
         });
-        console.log(`response: ${response}`)
+        console.log('claude response:')
+        console.log(response)
 
         // Respond with processed recipe data as JSON
         res.json({ reply: response.content[0].text });
     } catch (error) {
-        console.error('Error in POST handler:', error);
+        console.error('Error in POST handlers:', error);
         res.status(500).json({ error: 'Error scraping the recipe' });
     }
 });

@@ -65,7 +65,12 @@ document.getElementById('recipe-form').addEventListener('submit', async (event) 
         title.textContent = recipeJSON.title
 
         const image = document.getElementById('recipe-image')
-        image.src = recipeJSON.imageURL
+        const imageContainer = document.getElementById('recipe-img-container')
+        if (!recipeJSON.imageURL) {
+            imageContainer.style.display = 'none'
+        } else {
+            image.src = recipeJSON.imageURL
+        }
 
         const yield = document.getElementById('recipe-yield')
         yield.textContent = recipeJSON.yield
