@@ -8,9 +8,22 @@ document.getElementById('recipe-form').addEventListener('submit', async (event) 
 
     let loadingContainer = document.querySelector('.loading-container')
     loadingContainer.style.display = 'block'
+
+    const loadingText = document.getElementById('loading-text')
+    const loadingText2 = document.getElementById('loading-text-2')
+
+    setTimeout(() => {
+        loadingText.style.display = 'block'
+    }, 3000)
+
+    setTimeout(() => {
+        loadingText2.style.display = 'block'
+    }, 6000)
     
     const urlInput = document.getElementById('url').value
     const prefInput = document.getElementById('preferences').value
+
+   
 
     
     
@@ -96,6 +109,12 @@ document.getElementById('recipe-form').addEventListener('submit', async (event) 
             li.textContent = recipeJSON.instructions[i]
             instructions.appendChild(li)
         }
+
+        const originalRecipeLink = document.getElementById('original-recipe-link')
+        originalRecipeLink.href = urlInput
+    
+        const originalRecipeRequirements = document.getElementById('original-recipe-requirements')
+        originalRecipeRequirements.innerText = prefInput
 
         recipeContainer.style.display = 'block'
         // recipeContainer.innerHTML = `<p>${recipeJSON}</p>`;
