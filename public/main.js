@@ -116,6 +116,11 @@ document.getElementById('recipe-form').addEventListener('submit', async (event) 
         const originalRecipeRequirements = document.getElementById('original-recipe-requirements')
         originalRecipeRequirements.innerText = prefInput
 
+        const makeAnotherButton = document.getElementById('make-another')
+        makeAnotherButton.addEventListener('click', () => {
+            window.location.reload();
+        })
+
         recipeContainer.style.display = 'block'
         // recipeContainer.innerHTML = `<p>${recipeJSON}</p>`;
     } catch (error) {
