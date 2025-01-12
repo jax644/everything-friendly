@@ -118,7 +118,7 @@ document.getElementById('recipe-form').addEventListener('submit', async (event) 
 
         const makeAnotherButton = document.getElementById('make-another')
         makeAnotherButton.addEventListener('click', () => {
-            window.location.href = window.location.pathname;
+            window.location.reload(true);
         })
 
         recipeContainer.style.display = 'block'
