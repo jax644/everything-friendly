@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everything-Friendly</title>
+
+    <!-- Google fonts: Lateef (heades), Inter (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lateef:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Normalize.css -->
+    <link rel="stylesheet" href="normalize.css">
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Everything-Friendly</h1>
+        <img class="logo" src="EF-leaf.png" alt="Everything-Friendly logo (two leaves resembling the vegetarian symbol on restaurant menus)">
+        <h2>Any recipe, your way.</h2>
+    </header>
+    <main class="flex-column">
+        <p id="description">Enjoy any online recipe, adjusted to meet your dietary needs and preferences.</p>
+        
+        <!-- Recipe request form -->
+        <section id="form-container" class="flex">
+            <form id="recipe-form">
+                <label for="preferences">Enter your dietary preferences</label> <br>
+                <input type="text" name="preferences" id="preferences" placeholder="Vegan, Kosher, I don't like beans" required> <br>
+                
+                <label for="url">Enter a recipe URL</label> <br>
+                <input type="url" name="url" id="url" placeholder="https://www.yummyrecipes.com/cookies/" required> <br>
+                
+                <button type="submit">Make it friendly</button>
+            </form>
+        </section>
+
+        <!-- Loading animation -->
+        <section class="loading-container">
+            <img class="leaf-spinner" src="EF-leaf-spinner.png" alt="Everything-Friendly logo spinning to signify loading"><br><br>
+            <h1 id="loading">
+                <span>l</span>
+                <span>o</span>
+                <span>a</span>
+                <span>d</span>
+                <span>i</span>
+                <span>n</span>
+                <span>g</span>
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+            </h1>
+            <p id="loading-text">Loading may take up to 30 seconds.</p>
+            <p id="loading-text-2">Thank you for your patience!</p>
+        </section>
+        
+        <!-- Recipe results -->
+        <section id="recipe-container" class="flex-column">
+            <h1 id="recipe-title"></h2>
+            <hr>
+            <div id="recipe-details" class="flex">
+                <div id="recipe-block-container" class="flex-column">
+                    <div id="recipe-img-container">
+                        <img id="recipe-image" src="#" alt="recipe image">
+                    </div>
+                    <div id="time-and-yield-container">
+                        <h2>Time & Yield</h2>
+                        <ul>
+                            <li>
+                                <strong>Yield: </strong>
+                                <span id="recipe-yield"></span>
+                            </li>
+                        
+                        
+                            <li>
+                                <strong>Prep Time: </strong>
+                                <span id="prep-time"></span>
+                            </li>
+                        
+                            <li>
+                                <strong>Total Time: </strong>
+                                <span id="total-time"></span>
+                            </li> 
+                        </ul>
+                    </div>
+                    <div id="ai-disclaimer">
+                        <h2>Enjoy safely!</h2>
+                        <p>This recipe was generated with Claude’s Anthropic AI. While the AI model is generally reliable, AI recommendations may not always be perfect. Please double-check the recipe ingredients to ensure they meet your preferences and requirements before cooking.</p>
+                    </div>
+                    <button id="make-another">Make another recipe</button>
+                </div>
+            
+                <div id="ingredients-and-instructions" class="flex-column">
+                    <div id="recipe-ingredients-container">
+                        <h2>Ingredients</h2>
+                        <ul id="recipe-ingredients"></ul>
+                    </div>
+                    <div id="recipe-instructions-container">
+                        <h2>Instructions</h2>
+                        <ol id="recipe-instructions"></ol>
+                    </div>
+                </div>
+            </div>
+            <div id="ai-disclaimer-mobile">
+                <h2>Enjoy safely!</h2>
+                <p>This recipe was generated with Claude’s Anthropic AI. While the AI model is generally reliable, AI recommendations may not always be perfect. Please double-check the recipe ingredients to ensure they meet your preferences and requirements before cooking.</p>
+            </div>
+            <br>
+            <button id="make-another-mobile">Make another recipe</button>
+            <hr>
+            <div id="original-recipe-details" class="flex">
+                <p>
+                    <strong>Original recipe:</strong>
+                    <a id="original-recipe-link" href="#" target="_blank">Link</a>
+                </p>
+                <p>
+                    <strong>Your requirements: </strong>
+                    <span id="original-recipe-requirements"></span>
+                </p>
+        </section>
+    </main>
+    <script src="main.js"></script>
+</body>
+</html>
