@@ -3,6 +3,8 @@ document.getElementById('recipe-form').addEventListener('submit', async (event) 
     event.preventDefault();
 
     const recipeContainer = document.getElementById('recipe-container')
+    const formContainer = document.getElementById('form-container')
+    
     // Clear previous results
     recipeContainer.style.display = 'none'
 
@@ -72,7 +74,7 @@ document.getElementById('recipe-form').addEventListener('submit', async (event) 
 
         // Remove the description, the form and the loading container
         document.getElementById('description').style.display = 'none';
-        document.getElementById('form-container').style.display = 'none';
+        formContainer.style.display = 'none'
         loadingContainer.style.display = 'none'
 
         // Update the recipe container with the response data
@@ -97,6 +99,8 @@ document.getElementById('recipe-form').addEventListener('submit', async (event) 
         totalTime.textContent = recipeJSON.totalTime
 
         const ingredients = document.getElementById('recipe-ingredients')
+        
+
         for (let i = 0; i < recipeJSON.ingredients.length; i++) {
             const li = document.createElement('li')
             li.textContent = recipeJSON.ingredients[i]
@@ -104,6 +108,7 @@ document.getElementById('recipe-form').addEventListener('submit', async (event) 
         }
 
         const instructions = document.getElementById('recipe-instructions')
+        
         for (let i = 0; i < recipeJSON.instructions.length; i++) {
             const li = document.createElement('li')
             li.textContent = recipeJSON.instructions[i]
@@ -118,7 +123,13 @@ document.getElementById('recipe-form').addEventListener('submit', async (event) 
 
         const makeAnotherButton = document.getElementById('make-another')
         makeAnotherButton.addEventListener('click', () => {
-            window.location.reload(true);
+            recipeContainer.style.display = 'none';
+            ingredients.innerHTML = '';
+            instructions.innerHTML = '';
+            document.getElementById('preferences').value = '';
+            document.getElementById('url').value = '';
+            formContainer.style.display = 'flex';
+            
         })
 
         recipeContainer.style.display = 'block'
