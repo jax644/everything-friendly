@@ -180,7 +180,12 @@ form button {
     display:none;
     margin:auto;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+}
 
+#ai-disclaimer-mobile  h2 {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size:1em;
+        margin:0px;
 }
 
 /* Targeted elements */
@@ -331,6 +336,7 @@ header h2 {
 
     #original-recipe-details {
         flex-direction: column;
+        gap:0px;
     }
 }
 
