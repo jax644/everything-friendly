@@ -129,7 +129,16 @@ document.getElementById('recipe-form').addEventListener('submit', async (event) 
             document.getElementById('preferences').value = '';
             document.getElementById('url').value = '';
             formContainer.style.display = 'flex';
-            
+        })
+
+        const makeAnotherMobile = document.getElementById('make-another-mobile')
+        makeAnotherMobile.addEventListener('click', () => {
+            recipeContainer.style.display = 'none';
+            ingredients.innerHTML = '';
+            instructions.innerHTML = '';
+            document.getElementById('preferences').value = '';
+            document.getElementById('url').value = '';
+            formContainer.style.display = 'flex';
         })
 
         recipeContainer.style.display = 'block'
