@@ -322,9 +322,7 @@ header h2 {
 /* Mobile */
 @media only screen and (max-width: 480px) {
 
-    .logo {
-        transform: rotate(-0.25turn)
-    }
+    
 
     #recipe-details {
         padding:0px;
@@ -337,6 +335,12 @@ header h2 {
     #original-recipe-details {
         flex-direction: column;
         gap:0px;
+    }
+}
+
+@media only screen and (max-width: 388px) {
+    .logo {
+        transform: rotate(-0.25turn)
     }
 }
 
