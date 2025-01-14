@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Recipe ({ recipe }) {
+function Recipe ({ recipe, url, preferences }) {
     if (!recipe) return null;
 
     if (recipe.error) {
@@ -46,8 +46,6 @@ function Recipe ({ recipe }) {
                         <h2>Enjoy safely!</h2>
                         <p>This recipe was generated with Claude’s Anthropic AI. While the AI model is generally reliable, AI recommendations may not always be perfect. Please double-check the recipe ingredients to ensure they meet your preferences and requirements before cooking.</p>
                     </div>
-
-                    <button id="make-another">Make another recipe</button>
                 </div>
 
                 <div id="ingredients-and-instructions" className="flex-column">
@@ -75,18 +73,16 @@ function Recipe ({ recipe }) {
                 <h2>Enjoy safely!</h2>
                 <p>This recipe was generated with Claude’s Anthropic AI. While the AI model is generally reliable, AI recommendations may not always be perfect. Please double-check the recipe ingredients to ensure they meet your preferences and requirements before cooking.</p>
             </div><br/>
-
-            <button id="make-another-mobile">Make another recipe</button>
             <hr/>
 
             <div id="original-recipe-details" className="flex">
                 <p>
                     <strong>Original recipe:</strong>
-                    <a id="original-recipe-link" href="#" target="_blank">Link</a>
+                    <a id="original-recipe-link" href={url} target="_blank">Link</a>
                 </p>
                 <p>
                     <strong>Your requirements: </strong>
-                    <span id="original-recipe-requirements"></span>
+                    <span id="original-recipe-requirements">{preferences}</span>
                 </p>
             </div>
 
