@@ -19,8 +19,9 @@ function RecipeGenerationForm() {
         setIsLoading(true); // Show LoadingDisplay
     
         try {
+
             // Call the API
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/parse-recipe`, { url, preferences });
+            const response = await axios.post(`https://everything-friendly.onrender.com/api/parse-recipe`, { url, preferences });
             const recipeData = JSON.parse(cleanData(response.data.reply))
             setRecipe(recipeData); // Set the received recipe data
         } catch (error) {
