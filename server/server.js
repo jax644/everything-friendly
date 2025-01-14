@@ -6,41 +6,22 @@ const sanitizeHtml = require("sanitize-html");
 const axios = require('axios')
 const Anthropic = require("@anthropic-ai/sdk")
 const cors = require('cors');
-
-
-
+const path = require('path');
 require('dotenv').config()
 
 const app = express();
+app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(cors())
+app.use(express.json());
 
 const anthropic = new Anthropic({
     apiKey: process.env.CLAUDE_API_KEY,
     dangerouslyAllowBrowser: true,
 })
 
-app.use(express.json());
-app.use(express.static('public'));
-
-// URL validation
-function isValidUrl(string) {
-    try {
-        new URL(string);
-        return true;
-    } catch (error) {
-        return false;
-    }
-}
-
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html')
-})
-
-// Test to see if react app is connected
-app.get('/test', (req, res) => {
-    res.send('Hello World!')
-})
-
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
 // Handle URL submission
 app.post('/api/parse-recipe', async (req, res) => {
@@ -88,6 +69,16 @@ app.post('/api/parse-recipe', async (req, res) => {
     } catch (error) {
         console.error('Error in POST handlers:', error);
         res.status(500).json({ error: 'Error scraping the recipe' });
+    }
+
+    // URL validation
+    function isValidUrl(string) {
+        try {
+            new URL(string);
+            return true;
+        } catch (error) {
+            return false;
+        }
     }
 });
 
