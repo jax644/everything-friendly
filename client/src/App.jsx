@@ -4,60 +4,61 @@ import axios from 'axios';
 
 import Header from './components/Header';
 import RecipeGenerationForm from './components/RecipeGenerationForm';
-import LoadingDisplay from './components/LoadingDisplay';
+import LoadingDisplay from './components/LoadingDisplay/LoadingDisplay';
 import Recipe from './components/Recipe';
 
-  function App() {
+function App() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [recipe, setRecipe] = useState(null);
 
-  const generateRecipe = async (url, preferences) => {
-    
-    setIsLoading(true);
-    setRecipe(null);
-
+  const handleFormSubmit = async (url, preferences) => {
+    setIsLoading(true); // Show LoadingDisplay
     try {
-      const response = await axios.post('/api/parse-recipe', { url, preferences });
-      if (!response.ok) throw new Error(`Error: ${response.statusText}`);
+      // Simulate API request here or call the actual API
+      const response = await axios.post('http://localhost:3000/api/parse-recipe', { url, preferences });
+      const recipeData = JSON.parse(cleanData(response.data.reply))
+      
+      setRecipe(recipeData); // Set the received recipe data
 
-      const data = await response.json();
-      const recipeJSON = cleanAndParseJSON(data.reply);
-      setRecipe(recipeJSON);
     } catch (error) {
-      console.error(`Error generating recipe: ${error.message}`);
-      setRecipe(null);
+      console.error('Error fetching recipe:', error);
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Hide LoadingDisplay and show Recipe component once data is received
     }
+  };
 
-    const cleanAndParseJSON = (inputString) => {
-      try {
-        const cleanedString = inputString
-          .replace(/\\n/g, '')
-          .replace(/\\"/g, '"')
-          .replace(/\\\\/g, '\\');
+  const cleanData = (inputString) => {
+    try {
+      const cleanedString = inputString
+        .replace(/\\n/g, '')
+        .replace(/\\"/g, '"')
+        .replace(/\\\\/g, '\\');
 
-        return JSON.parse(cleanedString);
-      } catch (error) {
-        console.error('Error parsing JSON:', error);
-        return null;
-      }
-    };
-    
-    return (
-      <>
-        < Header />
-        <main className="flex-column">
-            <p id="description">Enjoy any online recipe, adjusted to meet your dietary needs and preferences.</p>
-          
-          < RecipeGenerationForm onSubmit={generateRecipe} />
-          < LoadingDisplay isLoading={isLoading} />
-          < Recipe recipe={recipe} />
-        </main>
-      </>
-    )
-  }
+      return cleanedString;
+    } catch (error) {
+      console.error('Error cleaning string:', error);
+      return null;
+    }
+  };
+  
+  return (
+    <>
+      < Header />
+      <main className="flex-column">
+          <p id="description">Enjoy any online recipe, adjusted to meet your dietary needs and preferences.</p>
+
+        {isLoading ? (
+          <LoadingDisplay />
+        ) : recipe ? (
+          <Recipe recipe={recipe} /> // Show recipe if available
+        ) : (
+          <RecipeGenerationForm onSubmit={handleFormSubmit} /> // Show form if no recipe data
+        )}
+
+      </main>
+    </>
+  )
 }
 
 export default App;

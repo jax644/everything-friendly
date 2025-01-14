@@ -1,15 +1,27 @@
-function Recipe () {
+import React from 'react';
+
+function Recipe ({ recipe }) {
+    if (!recipe) return null;
+
+    if (recipe.error) {
+        return ( 
+            <section id="recipe-container" className="flex-column">
+                <h1 id="recipe-title">{recipe.error}</h1>
+            </section>
+        )
+    }
+
     return (
         <section id="recipe-container" className="flex-column">
 
-            <h1 id="recipe-title"></h1>
+            <h1 id="recipe-title">{recipe.title}</h1>
             <hr/>
 
             <div id="recipe-details" className="flex">
                 <div id="recipe-block-container" className="flex-column">
-                
+
                     <div id="recipe-img-container">
-                        <img id="recipe-image" src="#" alt="recipe image"/>
+                        {recipe.imageURL && <img id="recipe-image" src={recipe.imageURL} alt="recipe image"/>}
                     </div>
 
                     <div id="time-and-yield-container">
@@ -17,15 +29,15 @@ function Recipe () {
                         <ul>
                             <li>
                                 <strong>Yield: </strong>
-                                <span id="recipe-yield"></span>
+                                <span>{recipe.yield}</span>
                             </li>
                             <li>
                                 <strong>Prep Time: </strong>
-                                <span id="prep-time"></span>
+                                <span>{recipe.prepTime}</span>
                             </li>
                             <li>
                                 <strong>Total Time: </strong>
-                                <span id="total-time"></span>
+                                <span>{recipe.totalTime}</span>
                             </li> 
                         </ul>
                     </div>
@@ -41,11 +53,19 @@ function Recipe () {
                 <div id="ingredients-and-instructions" className="flex-column">
                     <div id="recipe-ingredients-container">
                         <h2>Ingredients</h2>
-                        <ul id="recipe-ingredients"></ul>
+                        <ul id="recipe-ingredients">
+                            { recipe.ingredients && recipe.ingredients.map((ingredient, index) => 
+                                <li key={index}>{ingredient}</li>
+                            )}
+                        </ul>
                     </div>
                     <div id="recipe-instructions-container">
                         <h2>Instructions</h2>
-                        <ol id="recipe-instructions"></ol>
+                        <ol id="recipe-instructions">
+                            { recipe.instructions && recipe.instructions.map((instruction, index) => 
+                                <li key={index}>{instruction}</li>
+                            )}
+                        </ol>
                     </div>
                 </div>
 
