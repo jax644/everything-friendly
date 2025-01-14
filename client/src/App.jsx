@@ -8,7 +8,6 @@ function App() {
     <>
       < Header />
       <main className="flex-column">
-          <p id="description">Enjoy any online recipe, adjusted to meet your dietary needs and preferences.</p>
         <RecipeGenerationForm/>
       </main>
     </>

@@ -49,6 +49,8 @@ function RecipeGenerationForm() {
     return (
         <>
             { showForm && 
+                <>
+                <p id="description">Enjoy any online recipe, adjusted to meet your dietary needs and preferences.</p>
                 <form id="recipe-form" onSubmit={event => handleSubmit(event, url, preferences)}>
                     <label htmlFor="preferences">
                         Enter your dietary preferences
@@ -76,6 +78,7 @@ function RecipeGenerationForm() {
                     </label> <br/>
                     <button type="submit">Make it friendly</button>
                 </form>
+                </>
             }
 
             {isLoading ? 

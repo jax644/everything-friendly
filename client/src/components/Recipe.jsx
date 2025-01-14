@@ -20,25 +20,39 @@ function Recipe ({ recipe, url, preferences }) {
             <div id="recipe-details" className="flex">
                 <div id="recipe-block-container" className="flex-column">
 
+                {recipe.imageURL && 
                     <div id="recipe-img-container">
-                        {recipe.imageURL && <img id="recipe-image" src={recipe.imageURL} alt="recipe image"/>}
+                        <img id="recipe-image" src={recipe.imageURL} alt="recipe image"/>
                     </div>
+                }
 
                     <div id="time-and-yield-container">
                         <h2>Time & Yield</h2>
                         <ul>
-                            <li>
-                                <strong>Yield: </strong>
-                                <span>{recipe.yield}</span>
-                            </li>
-                            <li>
-                                <strong>Prep Time: </strong>
-                                <span>{recipe.prepTime}</span>
-                            </li>
-                            <li>
-                                <strong>Total Time: </strong>
-                                <span>{recipe.totalTime}</span>
-                            </li> 
+                            { recipe.yield &&
+                                <>
+                                    <li>
+                                        <strong>Yield: </strong>
+                                        <span>{recipe.yield}</span>
+                                    </li>
+                                </>
+                            }
+                            { recipe.activeTime &&
+                                <>
+                                    <li>
+                                        <strong>Prep Time: </strong>
+                                        <span>{recipe.activeTime}</span>
+                                    </li> 
+                                </>
+                            }
+                            { recipe.totalTime &&
+                                <>
+                                    <li>
+                                        <strong>Total Time: </strong>
+                                        <span>{recipe.totalTime}</span>
+                                    </li>
+                                </>
+                            }     
                         </ul>
                     </div>
 
