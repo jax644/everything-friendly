@@ -10,7 +10,7 @@ const path = require('path');
 require('dotenv').config()
 
 const app = express();
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 app.use(cors())
 app.use(express.json());
 
@@ -20,7 +20,7 @@ const anthropic = new Anthropic({
 })
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
 });
 
 // Handle URL submission
