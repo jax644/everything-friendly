@@ -3,6 +3,7 @@ import RecipeGenerationForm from './components/RecipeGenerationForm';
 import './App.css'
 
 function App() {
+  console.log('Hello from App.js')
 
   return (
     <>

@@ -6,6 +6,7 @@ import Recipe from './Recipe';
 
 
 function RecipeGenerationForm() {
+    console.log('RecipeGenerationForm called')
     const [showForm, setShowForm] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [recipe, setRecipe] = useState(null);
@@ -16,14 +17,20 @@ function RecipeGenerationForm() {
     async function handleSubmit (event, url, preferences) {
         event.preventDefault();
         
+        const isProduction= process.env.NODE_ENV === 'production';
+        console.log(`isProduction: ${isProduction}`)
+        const BASE_URL = isProduction ? 'https://everything-friendly.onrender.com' : 'http://localhost:3000'
+        console.log(`BASE_URL: ${BASE_URL}`)
+        console.log(`Full URL: ${BASE_URL}/api/parse-recipe`)
+
         setIsLoading(true); // Show LoadingDisplay
     
         try {
-
             // Call the API
-            const response = await axios.post(`https://everything-friendly.onrender.com/api/parse-recipe`, { url, preferences });
+            const response = await axios.post(`${BASE_URL}/api/parse-recipe`, { url, preferences });
             const recipeData = JSON.parse(cleanData(response.data.reply))
             setRecipe(recipeData); // Set the received recipe data
+            console.log(`Recipe data: ${recipeData}`)
         } catch (error) {
             console.error('Error fetching recipe:', error);
         } finally {
@@ -99,6 +106,7 @@ function RecipeGenerationForm() {
         </>
     );
 }
+
 
 
 
