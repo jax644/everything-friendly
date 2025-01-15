@@ -1,17 +1,44 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
 import Header from './components/Header';
 import RecipeGenerationForm from './components/RecipeGenerationForm';
+import LoginPage from './pages/LoginPage';
 import './App.css'
 
 function App() {
-  console.log('Hello from App.js')
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
   return (
-    <>
-      < Header />
+    <BrowserRouter>
+      < Header isAuthenticated={isAuthenticated} user={user}/>
       <main className="flex-column">
-        <RecipeGenerationForm/>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <RecipeGenerationForm
+                isAuthenticated={isAuthenticated}
+                user={user}
+              />
+            }
+          />
+
+          <Route
+            path="/login"
+            element={
+              < LoginPage 
+                setIsAuthenticated={setIsAuthenticated}
+                setUser={setUser}
+              />
+            }
+          />
+        </Routes>
+      
+        
       </main>
-    </>
+
+    </BrowserRouter>
   )
 
 }
