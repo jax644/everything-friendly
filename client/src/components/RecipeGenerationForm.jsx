@@ -53,8 +53,7 @@ function RecipeGenerationForm() {
                 <>
                 <p id="description">Enjoy any online recipe, adjusted to meet your dietary needs and preferences.</p>
                 <form id="recipe-form" onSubmit={event => handleSubmit(event, url, preferences)}>
-                    <label htmlFor="preferences">
-                        Enter your dietary preferences
+                    <label htmlFor="preferences">Enter your dietary preferences</label>
                         <input 
                             type="text" 
                             name="preferences" 
@@ -63,10 +62,8 @@ function RecipeGenerationForm() {
                             onChange={event => setPreferences(event.target.value)}
                             placeholder="Vegan, Kosher, I don't like beans"
                             required
-                        /> <br/>
-                    </label> <br/>
-                    <label htmlFor="url">
-                        Enter a recipe URL
+                        /> 
+                    <label htmlFor="url">Enter a recipe URL</label> 
                         <input 
                             type="url" 
                             name="url" 
@@ -75,8 +72,7 @@ function RecipeGenerationForm() {
                             onChange={event => setUrl(event.target.value)}
                             placeholder="https://www.yummyrecipes.com/cookies/" 
                             required 
-                        /> <br/>
-                    </label> <br/>
+                        />
                     <button type="submit">Make it friendly</button>
                 </form>
                 </>
