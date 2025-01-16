@@ -13,9 +13,17 @@ router.get('/google',
 );
 
 router.get('/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  passport.authenticate('google', { failureRedirect: '/login?error=Authentication failed' }),
   AuthController.googleCallback
 );
+
+router.get('/current-user', (req,res) => {
+  if (req.isAuthenticated()) {
+    res.json({ user: req.user });
+  } else {
+    res.status(401).json({ message: 'Not authenticated' });
+  }
+});
 
 router.get('/logout', AuthController.logout);
 

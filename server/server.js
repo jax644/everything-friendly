@@ -3,16 +3,19 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const session = require('express-session');
-const passport = require('.config/passport');
+const passport = require('./config/passport');
 const mongoose = require('mongoose');
 
 const homeRoutes = require('./routes/homeRoutes');
 const apiRoutes = require('./routes/apiRoutes');
-const authRoutes = require('./routes/auth')
+const authRoutes = require('./routes/authRoutes')
 
 const app = express();
 
-console.log(`Hello from server.js`)
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://everything-friendly.onrender.com'
+]
 
 // Static files
 const isProduction = process.env.NODE_ENV === 'production';
@@ -22,7 +25,19 @@ isProduction ?
     app.use(express.static(path.join(__dirname, '../client/public')))
 
 // Middleware
-app.use(cors())
+app.use(
+    cors({
+      origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps or Postman)
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+      credentials: true, // Allow cookies and credentials
+    })
+  );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({

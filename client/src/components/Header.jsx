@@ -5,7 +5,7 @@ function Header({isAuthenticated, user}) {
         <header>
           {isAuthenticated 
           ? 
-          <p>Logged in as: {user.username}</p> 
+          <p>Logged in as: {user.name}</p> 
           : 
           <a href="/login"><span>Sign in</span></a>}
           <h1>Everything-Friendly</h1>

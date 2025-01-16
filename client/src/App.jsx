@@ -5,6 +5,7 @@ import RecipeGenerationForm from './components/RecipeGenerationForm';
 import LoginPage from './pages/LoginPage';
 import './App.css'
 import Dashboard from './pages/Dashboard';
+import cors from 'cors';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
