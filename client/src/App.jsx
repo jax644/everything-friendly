@@ -1,42 +1,25 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import Header from './components/Header';
-import routesConfig from './routes/routesConfig';
-import ProtectedRoute from './routes/protectRoute';
+import RecipeGenerationForm from './components/RecipeGenerationForm';
+import LoginPage from './pages/LoginPage';
+import Dashboard from './pages/Dashboard';
 import './App.css'
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-
+  
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Header isAuthenticated={isAuthenticated} user={user}/>
+        <Header />
         <main className="flex-column">
           <Routes>
-            {routesConfig.map(({ path, element: Element, isProtected }, index) => (
-                <Route
-                  key={index}
-                  path={path}
-                  element={
-                    isProtected
-                      ?
-                      <ProtectedRoute isAuthenticated={isAuthenticated}>
-                        <Element user={user} />
-                      </ProtectedRoute>
-                      : 
-                      <Element
-                        setIsAuthenticated={setIsAuthenticated}
-                        setUser={setUser}
-                        isAuthenticated={isAuthenticated}
-                        user={user}
-                      />
-                    }
-                />
-              ))
-            }
+            {/* Public routes */}
+            <Route path="/" element={<RecipeGenerationForm />} />
+            <Route path="/login" element={<LoginPage />} />
+            
+            {/* Protected routes */}
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </main>
       </BrowserRouter>

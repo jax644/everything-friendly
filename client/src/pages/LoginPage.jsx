@@ -1,119 +1,94 @@
-import { useState, useEffect } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-const LoginPage = ({ setIsAuthenticated, setUser }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+function LoginPage () {
+    const { isAuthenticated, setUser, setIsAuthenticated } = useContext(AuthContext);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
-  const BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://everything-friendly.onrender.com' 
-  : 'http://localhost:3000'
+    const BASE_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://everything-friendly.onrender.com' 
+    : 'http://localhost:3000'
 
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const response = await fetch(`${BASE_URL}/auth/current-user`, {
-          credentials: 'include',
-        });
-        const data = await response.json();
-        if (response.ok) {
-          setIsAuthenticated(true);
-          setUser(data.user);
-          console.log(`${data.user} is logged in`);
-        }
-      } catch (err) {
-        console.error('Error fetching current user:', err);
-      }
-    };
-    fetchCurrentUser();
-  }, [setIsAuthenticated, setUser]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-
-    try {
-      const response = await fetch(`${BASE_URL}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
-      }
-
-      // Update authentication state
-      setIsAuthenticated(true);
-      setUser(data.user);
-      console.log(`${data.user} is logged in`)
-      navigate('/'); // or wherever you want to redirect after login
-    } catch (err) {
-      setError(err.message);
+    if (isAuthenticated) {
+        navigate('/dashboard');
+        return null
     }
-  };
+
+    async function handleSubmit (event) {
+        event.preventDefault();
+
+        try {
+        const response = await fetch(`${BASE_URL}/auth/login`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Login failed');
+        }
+
+        // Update authentication state
+        setIsAuthenticated(true);
+        setUser(data.user);
+            console.log(`${data.user} is logged in`)
+        navigate('/');
+        } catch (err) {
+        setError(err.message);
+        }
+    };
 
   return (
     <div>
-        <h2>
-        Sign in to your account
-        </h2>
-    
-        {error && (
-            <div role="alert">
-            <span>{error}</span>
-            </div>
-        )}
+        <h2>Sign in </h2>
+
+        <button href={BASE_URL + '/auth/google'}>
+            <img
+                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                alt="Google logo"
+            />
+            Continue with Google
+        </button>
+
+        <p>or</p>
 
         <form onSubmit={handleSubmit}>
-           
             <label htmlFor="email">Email address</label>
-            <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email address"
-            />
-           
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    placeholder="Your email"
+                />
             <label htmlFor="password">Password</label>
-            <input
-            id="password"
-            name="password"
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            />
- 
-            <button
-              type="submit"
-            >
-              Sign in
-            </button>
-          
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    required
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    placeholder="Your password"
+                />
+            <button type="submit">Sign in</button>
         </form>
 
-       
-        <span >Or continue with</span>
-          
-         <a href={BASE_URL + '/auth/google'}>
-            <img
-            
-            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-            alt="Google logo"
-            />
-            Sign in with Google
-        </a>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+
+        <p>Don&apos;t have an account? 
+            <a href="/register">Register</a>
+        </p>
     </div>
   );
 };

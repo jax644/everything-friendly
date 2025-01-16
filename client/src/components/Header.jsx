@@ -1,6 +1,11 @@
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import logo from '../assets/EF-leaf.png';
 
-function Header({isAuthenticated, user}) {
+
+function Header() {
+
+    const { isAuthenticated, user } = useContext(AuthContext);
     return (
         <header>
           {isAuthenticated 
