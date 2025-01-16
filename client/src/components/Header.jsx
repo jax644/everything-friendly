@@ -13,7 +13,9 @@ function Header() {
           <p>Logged in as: {user.name}</p> 
           : 
           <a href="/login"><span>Sign in</span></a>}
-          <h1>Everything-Friendly</h1>
+          <a href="/">
+            <h1>Everything-Friendly</h1>
+          </a>
           <img className="logo" src={logo} alt="Everything-Friendly logo (two leaves resembling the vegetarian symbol on restaurant menus)"/>
           <h2>Any recipe, your way.</h2>
         </header>

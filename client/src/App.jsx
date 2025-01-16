@@ -4,6 +4,7 @@ import Header from './components/Header';
 import RecipeGenerationForm from './components/RecipeGenerationForm';
 import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
+import Footer from './components/Footer';
 import './App.css'
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </main>
+        <Footer />
       </BrowserRouter>
     </AuthProvider>
   )

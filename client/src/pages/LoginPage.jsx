@@ -50,13 +50,16 @@ function LoginPage () {
     <div>
         <h2>Sign in </h2>
 
-        <button href={BASE_URL + '/auth/google'}>
-            <img
-                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-                alt="Google logo"
-            />
-            Continue with Google
-        </button>
+        <a href= {BASE_URL + '/auth/google'}>
+            <button>
+                <img
+                    src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                    alt="Google logo"
+                    style={{ width: '15px', height: '15px' }}
+                />
+                Continue with Google
+            </button>
+        </a>
 
         <p>or</p>
 

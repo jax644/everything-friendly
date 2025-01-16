@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
-export default function useAuth () {
+export function useAuth () {
   return useContext(AuthContext);
 }
 
@@ -33,9 +33,26 @@ export function AuthProvider ({ children }) {
     fetchCurrentUser();
   }, []);
 
+    // Logout function
+    const logout = async () => {
+      try {
+        await fetch(`${BASE_URL}/auth/logout`, {
+          method: 'POST',
+          credentials: 'include',
+        });
+        setIsAuthenticated(false);
+        setUser(null);
+        console.log('User logged out');
+      } catch (err) {
+        console.error('Error logging out:', err);
+      }
+    };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, setIsAuthenticated, setUser }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, setIsAuthenticated, setUser, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export default AuthContext;
