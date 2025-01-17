@@ -77,6 +77,28 @@ exports.saveRecipe = async (req, res) => {
     }
 };
 
+exports.getRecipes = async (req, res) => {
+    console.log('recipeController.getRecipes called');
+    const userID = req.params.userID;
+
+    if (!userID) {
+        return res.status(400).json({ error: 'UserID is required' });
+    }
+
+    try {
+        // Find the user in the database
+        const user = await User.findById(userID);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({ recipes: user.recipes });
+    } catch (error) {
+        console.error('Error getting recipes:', error.message);
+        res.status(500).json({ error: 'An error occurred while getting recipes' });
+    }
+};
+
 const processWithAnthropic = async (recipeDataJson, preferences) => {
     const prompt = 'You are a recipe assistant who takes in recipes and return modified versions of those recipes based on the user\'s dietary preferences. Please respond with a modified recipe as JSON data in the same format you recieved it. For the ingredients and instructions, please format the values as arrays and not with new lines. Do not include anything other than JSON in your response. No preamble, explanations, or text beyond the JSON structure.  If you encounter a quote to specify inches, please replace it with the word "inch" or "inches". Thank you!'
 

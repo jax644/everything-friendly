@@ -1,40 +1,54 @@
-import { useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import RecipePreview from '../../components/RecipePreview/RecipePreview';
 import './Dashboard.css';
+
+
+const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://everything-friendly.onrender.com' : 'http://localhost:3000';
 
 function Dashboard() {
 
     const { user, isAuthenticated } = useContext(AuthContext);
+    const [recipes, setRecipes] = useState([]);
     const navigate = useNavigate();
 
-    let testRecipe =
-        {
-            imageURL: "https://cookieandkate.com/images/2015/10/thai-red-curry-with-vegetables-1-225x225.jpg",
-            title: "Vegan Thai Red Curry With Vegetables",
-            description: "",
-            source: "Cookie and Kate",
-            yield: "4 Servings",
-            activeTime: "10 Mins",
-            totalTime:"40 Minutes",
-
-            ingredients: ["Food"],
-            instructions: ["Have fun"],
-            notes: "",
-            url: "https://cookieandkate.com/thai-red-curry-recipe/",
-            preferences:"vegan"
-        }
-
-    let recipes = [testRecipe, testRecipe, testRecipe, testRecipe]
+        useEffect(() => {
+            if (user && user._id) {
+                getRecipes();
+            }
+        }, []);
  
 
+    async function getRecipes() {
+        try {
+            // Make the GET request to fetch recipes
+            const response = await axios.get(`${BASE_URL}/api/get-recipes/${user._id}`);
+            
+            // Ensure the response contains the expected data
+            if (response.data && response.data.recipes) {
+                setRecipes(response.data.recipes); // Update the recipes state with the fetched data
+                console.log('Recipes successfully retrieved:', recipes);
+            } else {
+                console.error('Unexpected response structure:', response.data);
+            }
+        } catch (error) {
+            // Handle HTTP or network errors
+            if (error.response) {
+                // Server responded with a status code outside 2xx range
+                console.error('Error fetching recipes:', error.response.status, error.response.data);
+            } else if (error.request) {
+                // Request was made but no response received
+                console.error('No response received:', error.request);
+            } else {
+                // Other errors during request setup
+                console.error('Error setting up request:', error.message);
+            }
+        }
+    }
 
 
-    // async function getRecipes () {
-    //     await fetch('/api/recipes');
-    //     recipes = await response.json();
-    // }
     
     if (!isAuthenticated) {
         navigate('/login');
