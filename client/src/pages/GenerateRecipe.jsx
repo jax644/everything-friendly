@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
 
 import LoadingDisplay from '../components/LoadingDisplay/LoadingDisplay.jsx';
 import Recipe from '../components/Recipe/Recipe.jsx';
-import {cleanData} from '../utils';
+import { cleanData } from '../../utils.js';
 
 
 function RecipeGenerationForm() {
@@ -19,7 +19,10 @@ function RecipeGenerationForm() {
     const [preferences, setPreferences] = useState('');
 
     const {user} = useContext(AuthContext);
-    const userID = user._id;
+    let userID = ''
+    if (user) {
+        userID = user._id
+    }
 
 
     // Function to generate a new recipe using the URL and preferences from the user
@@ -124,10 +127,14 @@ function RecipeGenerationForm() {
                         url={url} 
                         preferences={preferences} 
                     />
-                    <button id="save-recipe" onClick={saveRecipe}>Save recipe</button>
-                        { recipeSaved && <p>Recipe saved successfully!</p> }
-                        { recipeSaveError && <p>Error saving recipe</p> }
-                    <button id="make-another" onClick={makeAnother}>Make another recipe</button>
+                    { recipe &&
+                        <>
+                            <button id="save-recipe" onClick={saveRecipe}>Save recipe</button>
+                                { recipeSaved && <p>Recipe saved successfully!</p> }
+                                { recipeSaveError && <p>Error saving recipe</p> }
+                            <button id="make-another" onClick={makeAnother}>Make another recipe</button>
+                        </>
+                    }
                 </>
             }
         </>
