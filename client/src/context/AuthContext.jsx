@@ -84,10 +84,10 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const logout = () => {
+  async function logout (){
 
     // Trigger server logout
-    fetch(`${BASE_URL}/auth/logout`, {
+    await fetch(`${BASE_URL}/auth/logout`, {
       method: 'POST',
       credentials: 'include',
     });
@@ -101,8 +101,11 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('isAuthenticated');
 
     console.log('Logged out')
+    console.log(`Checking local storage...`)
     console.log(localStorage.getItem('isAuthenticated'))
     console.log(localStorage.getItem('userName'))
+    console.log(`Checking for cookies...`)
+    console.log(document.cookie)
   };
 
   return (

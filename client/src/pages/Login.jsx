@@ -15,7 +15,10 @@ function LoginPage () {
     ? 'https://everything-friendly.onrender.com' 
     : 'http://localhost:3000'
 
+    // Reditect user to their dashboard if they are already logged in
+    
     if (isAuthenticated) {
+        console.log("Already logged in; redirecting to dashboard")
         navigate('/dashboard');
         return null
     }
