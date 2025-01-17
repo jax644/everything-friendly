@@ -1,21 +1,19 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import './Recipe.css';
 
-function Recipe ({ recipe, url, preferences }) {
-    console.log(`Recipe component called`)
 
-    // Error handling
-    if (!recipe) {
-        console.log('recipe is null')
-        return null;
-    }
+function Recipe({ recipe: propsRecipe, url: propsUrl, preferences: propsPreferences }) {
+    const location = useLocation();
+    const state = location.state || {};
+    
+    // Use props first, fall back to state from `location`
+    const recipe = propsRecipe || state.recipe;
+    const url = propsUrl || state.url;
+    const preferences = propsPreferences || state.preferences;
 
-    if (recipe.error) {
-        return ( 
-            <section id="recipe-container" className="flex-column">
-                <h1 id="recipe-title">{recipe.error}</h1>
-            </section>
-        )
+    if (!recipe || !url || !preferences) {
+        return <p>Error: Recipe details are missing.</p>;
     }
 
     return (

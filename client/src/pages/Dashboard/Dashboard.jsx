@@ -64,7 +64,7 @@ function Dashboard() {
                 { recipes 
                     ?
                     recipes.map((recipe, index) => (
-                        <RecipePreview recipe={recipe} key={index}/>
+                        <RecipePreview recipe={recipe} index={index}/>
                     ))
                     :
                     <p>No recipes to show. Try generating a new recipe now!</p>
