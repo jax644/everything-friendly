@@ -8,7 +8,7 @@ import Recipe from '../components/Recipe/Recipe.jsx';
 import { cleanData } from '../../utils.js';
 
 
-function RecipeGenerationForm() {
+function GenerateRecipe() {
     const [showForm, setShowForm] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [recipe, setRecipe] = useState(null);
@@ -18,21 +18,20 @@ function RecipeGenerationForm() {
     const [url, setUrl] = useState('');
     const [preferences, setPreferences] = useState('');
 
+    // Set the base URL for the API call based on dev or production environment
+    const isProduction= process.env.NODE_ENV === 'production';
+    const BASE_URL = isProduction ? 'https://everything-friendly.onrender.com' : 'http://localhost:3000';
+
     const {user} = useContext(AuthContext);
-    let userID = ''
-    if (user) {
-        userID = user._id
-    }
+    console.log('user:')
+    console.log(user._id)
+    let userID = user._id
 
 
     // Function to generate a new recipe using the URL and preferences from the user
     async function handleSubmit (event, url, preferences) {
         // Prevent refresh
         event.preventDefault();
-
-        // Set the base URL for the API call based on dev or production environment
-        const isProduction= process.env.NODE_ENV === 'production';
-        const BASE_URL = isProduction ? 'https://everything-friendly.onrender.com' : 'http://localhost:3000';
 
         setIsLoading(true); // Show LoadingDisplay
     
@@ -62,6 +61,7 @@ function RecipeGenerationForm() {
             setRecipeSaved(false);
             
             // Send the recipe and user data to the server
+            console.log(`userID: ${userID}, recipe: ${recipe}, url: ${url}, preferences: ${preferences}`)
             const response = await axios.post(`${BASE_URL}/api/save-recipe`, { userID, recipe,  url, preferences });
             
             // Handle server response (optional: check for success status)
@@ -144,4 +144,4 @@ function RecipeGenerationForm() {
 
 
 
-export default RecipeGenerationForm;
+export default GenerateRecipe;

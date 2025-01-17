@@ -6,6 +6,7 @@ const sanitizeHtml = require("sanitize-html");
 const axios = require('axios')
 const Anthropic = require("@anthropic-ai/sdk")
 const { isValidUrl, clipRecipeFromUrl } = require('../utils');
+const User = require('../models/User');
 
 const anthropic = new Anthropic({
     apiKey: process.env.CLAUDE_API_KEY,
@@ -45,6 +46,34 @@ exports.parseRecipe = async (req, res) => {
     } catch (error) {
         console.error('Error in POST handlers:', error);
         res.status(500).json({ error: 'Error scraping the recipe' });
+    }
+};
+
+exports.saveRecipe = async (req, res) => {
+    console.log('recipeController.saveRecipe called');
+    const { userID, recipe, url, preferences } = req.body;
+
+    console.log(req.body)
+
+    if (!userID || !recipe || !url || !preferences) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        // Find the user in the database
+        const user = await User.findById(userID);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Save the recipe to the user's recipes
+        user.recipes.push({ recipe, url, preferences });
+        await user.save();
+
+        res.json({ message: 'Recipe saved successfully', recipes: user.recipes });
+    } catch (error) {
+        console.error('Error saving the recipe:', error.message);
+        res.status(500).json({ error: 'An error occurred while saving the recipe' });
     }
 };
 

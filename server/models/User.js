@@ -23,6 +23,14 @@ const UserSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  recipes: {
+    type: Array,
+    default: []
+  },
+  friends: {
+    type: Array,
+    default: []
   }
 });
 

@@ -13,9 +13,9 @@ export function AuthProvider({ children }) {
   });
 
   const [user, setUser] = useState(() => {
-    // Retrieve only the 'name' field from localStorage
-    const storedName = localStorage.getItem('userName');
-    return storedName ? { name: storedName } : null;
+    // Retrieve the entire 'user' object from localStorage
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
   });
 
   const BASE_URL =
@@ -35,19 +35,19 @@ export function AuthProvider({ children }) {
           setIsAuthenticated(true);
           setUser(data.user);
 
-          // Save only the 'name' field to localStorage
-          localStorage.setItem('userName', data.user.name);
+          // Save the entire user object to localStorage
+          localStorage.setItem('user', JSON.stringify(data.user));
           localStorage.setItem('isAuthenticated', 'true');
         } else {
           // Clear localStorage if not authenticated
-          localStorage.removeItem('userName');
+          localStorage.removeItem('user');
           localStorage.removeItem('isAuthenticated');
           setIsAuthenticated(false);
         }
       } catch (err) {
         console.error('Error fetching current user:', err);
         // Clear localStorage on error
-        localStorage.removeItem('userName');
+        localStorage.removeItem('user');
         localStorage.removeItem('isAuthenticated');
         setIsAuthenticated(false);
       }
@@ -72,8 +72,8 @@ export function AuthProvider({ children }) {
         setIsAuthenticated(true);
         setUser(data.user);
 
-        // Save only the 'name' field to localStorage
-        localStorage.setItem('userName', data.user.name);
+        // Save the entire user object to localStorage
+        localStorage.setItem('user', JSON.stringify(data.user));
         localStorage.setItem('isAuthenticated', 'true');
       } else {
         throw new Error(data.message || 'Login failed');
@@ -84,28 +84,19 @@ export function AuthProvider({ children }) {
     }
   };
 
-  async function logout (){
-
+  async function logout () {
     // Trigger server logout
     await fetch(`${BASE_URL}/auth/logout`, {
       method: 'POST',
       credentials: 'include',
     });
 
-    console.log('logout called')
     setIsAuthenticated(false);
     setUser(null);
 
     // Clear localStorage on logout
-    localStorage.removeItem('userName');
+    localStorage.removeItem('user');
     localStorage.removeItem('isAuthenticated');
-
-    console.log('Logged out')
-    console.log(`Checking local storage...`)
-    console.log(localStorage.getItem('isAuthenticated'))
-    console.log(localStorage.getItem('userName'))
-    console.log(`Checking for cookies...`)
-    console.log(document.cookie)
   };
 
   return (
@@ -116,6 +107,5 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
-
 
 export default AuthContext;
