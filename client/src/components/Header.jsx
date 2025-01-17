@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import logo from '../assets/EF-leaf.png';
-import UserMenu from './UserMenu/UserMenu';
+import Dropdown from './Dropdown/Dropdown';
 
 
 function Header() {
@@ -12,7 +12,7 @@ function Header() {
         <header>
           {isAuthenticated 
           ? 
-          <UserMenu />
+          <Dropdown />
           : 
           <a href="/login"><span>Sign in</span></a>}
           
