@@ -1,0 +1,9 @@
+.dashboard {
+    box-sizing: border-box;
+    width: 90%;
+    justify-content: center;
+    background-color: white;
+    padding: 1em 3em;
+    border-radius: 10px;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  }
