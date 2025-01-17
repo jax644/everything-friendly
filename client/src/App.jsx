@@ -5,7 +5,6 @@ import RecipeGenerationForm from './components/RecipeGenerationForm';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import Dashboard from './pages/Dashboard';
-import Footer from './components/Footer';
 import './App.css'
 
 function App() {
@@ -25,7 +24,6 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </main>
-        <Footer />
       </BrowserRouter>
     </AuthProvider>
   )

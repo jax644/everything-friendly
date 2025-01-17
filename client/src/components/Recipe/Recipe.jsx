@@ -1,6 +1,10 @@
 import React from 'react';
+import './Recipe.css';
 
 function Recipe ({ recipe, url, preferences }) {
+
+    console.log('Recipe component called')
+    console.log(recipe)
     if (!recipe) return null;
 
     if (recipe.error) {

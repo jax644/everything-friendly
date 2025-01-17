@@ -2,11 +2,10 @@ import { useState } from 'react';
 import axios from 'axios';
 
 import LoadingDisplay from './LoadingDisplay/LoadingDisplay';
-import Recipe from './Recipe';
+import Recipe from './Recipe/Recipe.jsx';
 
 
 function RecipeGenerationForm() {
-    console.log('RecipeGenerationForm called')
     const [showForm, setShowForm] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [recipe, setRecipe] = useState(null);
@@ -85,10 +84,12 @@ function RecipeGenerationForm() {
                 </>
             }
 
-            {isLoading ? 
-                <LoadingDisplay /> : 
+            {isLoading 
+                ? 
+                <LoadingDisplay /> 
+                :
                 <>
-                    < Recipe 
+                    <Recipe 
                         recipe={recipe} 
                         url={url} 
                         preferences={preferences} 
