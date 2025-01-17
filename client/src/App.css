@@ -227,6 +227,10 @@ header h2 {
   display: none;
 }
 
+.left {
+  text-align: left;
+}
+
 /* Animations */
 
 /* Loading animation */
