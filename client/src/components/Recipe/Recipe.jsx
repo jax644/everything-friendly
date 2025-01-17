@@ -2,10 +2,13 @@ import React from 'react';
 import './Recipe.css';
 
 function Recipe ({ recipe, url, preferences }) {
+    console.log(`Recipe component called`)
 
-    console.log('Recipe component called')
-    console.log(recipe)
-    if (!recipe) return null;
+    // Error handling
+    if (!recipe) {
+        console.log('recipe is null')
+        return null;
+    }
 
     if (recipe.error) {
         return ( 
@@ -14,6 +17,27 @@ function Recipe ({ recipe, url, preferences }) {
             </section>
         )
     }
+
+    // Save recipe function
+    async function saveRecipe() {
+        console.log('Saving recipe...')
+        // const recipeData = JSON.stringify(recipe);
+
+        // await fetch(`${BASE_URL}/api/save-recipe`, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: recipeData
+        // })
+    }
+
+    // Make another recipe function
+    function makeAnother() {
+        setRecipe(null);       // Clear the recipe data
+        setShowForm(true);     // Show the recipe generation form
+        setIsLoading(false);   // Ensure loading state is reset
+        }
 
     return (
         <section id="recipe-container" className="flex-column">
@@ -24,46 +48,55 @@ function Recipe ({ recipe, url, preferences }) {
             <div id="recipe-details" className="flex">
                 <div id="recipe-block-container" className="flex-column">
 
-                {recipe.imageURL && 
-                    <div id="recipe-img-container">
-                        <img id="recipe-image" src={recipe.imageURL} alt="recipe image"/>
-                    </div>
-                }
-
-                    <div id="time-and-yield-container">
-                        <h2>Time & Yield</h2>
-                        <ul>
-                            { recipe.yield &&
-                                <>
-                                    <li>
-                                        <strong>Yield: </strong>
-                                        <span>{recipe.yield}</span>
-                                    </li>
-                                </>
-                            }
-                            { recipe.activeTime &&
-                                <>
-                                    <li>
-                                        <strong>Prep Time: </strong>
-                                        <span>{recipe.activeTime}</span>
-                                    </li> 
-                                </>
-                            }
-                            { recipe.totalTime &&
-                                <>
-                                    <li>
-                                        <strong>Total Time: </strong>
-                                        <span>{recipe.totalTime}</span>
-                                    </li>
-                                </>
-                            }     
-                        </ul>
+                    {/* Display image block only if image is successfully retrieved */}
+                    {recipe.imageURL && 
+                        <div id="recipe-img-container">
+                            <img id="recipe-image" src={recipe.imageURL} alt="recipe image"/>
+                        </div>
+                    }
+                        {/* Display time and yield block only if at least one data point is retrieved */}
+                        { recipe.yield || recipe.activeTime || recipe.totalTime &&
+                            <div id="time-and-yield-container">
+                                <h2>Time & Yield</h2>
+                                <ul>
+                                    { recipe.yield &&
+                                        <>
+                                            <li>
+                                                <strong>Yield: </strong>
+                                                <span>{recipe.yield}</span>
+                                            </li>
+                                        </>
+                                    }
+                                    { recipe.activeTime &&
+                                        <>
+                                            <li>
+                                                <strong>Prep Time: </strong>
+                                                <span>{recipe.activeTime}</span>
+                                            </li> 
+                                        </>
+                                    }
+                                    { recipe.totalTime &&
+                                        <>
+                                            <li>
+                                                <strong>Total Time: </strong>
+                                                <span>{recipe.totalTime}</span>
+                                            </li>
+                                        </>
+                                    }     
+                                </ul>
+                            </div>
+                        }
                     </div>
 
                     <div id="ai-disclaimer">
                         <h2>Enjoy safely!</h2>
                         <p>This recipe was generated with Claude’s Anthropic AI. While the AI model is generally reliable, AI recommendations may not always be perfect. Please double-check the recipe ingredients to ensure they meet your preferences and requirements before cooking.</p>
                     </div>
+
+                    <div class="button-container">
+                        <button id="save-recipe" onClick={saveRecipe}>Save recipe</button>
+                        <button id="make-another" onClick={makeAnother}>Generate another recipe</button>
+                    <div/>
                 </div>
 
                 <div id="ingredients-and-instructions" className="flex-column">
@@ -103,7 +136,6 @@ function Recipe ({ recipe, url, preferences }) {
                     <span id="original-recipe-requirements">{preferences}</span>
                 </p>
             </div>
-
         </section>
     )
 }
