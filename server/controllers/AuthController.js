@@ -3,8 +3,10 @@ const bcrypt = require('bcryptjs');
 
 class AuthController {
   static async register(req, res) {
+    console.log(`request:`)
+    console.log(req.body)
     try {
-      const { email, password, name } = req.body;
+      const { name, email, password } = req.body;
       
       // Check if user already exists
       const existingUser = await User.findOne({ email: email.toLowerCase() });
@@ -46,8 +48,34 @@ class AuthController {
   }
 
   static async logout(req, res) {
-    req.logout();
-    res.json({ message: 'Logged out successfully' });
+    // Clear the session cookie
+    console.log('logout called')
+    console.log(`attemping to clear cookies`)
+    res.clearCookie('connect.sid');
+  
+    // Destroy the session on the server side
+    if (req.session) {
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Error destroying session:', err);
+          return res.status(500).json({ message: 'Failed to log out' });
+        }
+  
+        // Optional: Log the user out using Passport (if applicable)
+        if (req.logout) {
+          req.logout(function(err) {
+            if (err) { return (err); }
+            res.redirect('/');
+          });
+        }
+  
+        // Send confirmation to the client
+        res.status(200).json({ message: 'Logged out successfully' });
+      });
+    } else {
+      // Fallback in case there's no session to destroy
+      res.status(200).json({ message: 'Logged out successfully' });
+    }
   }
 }
 

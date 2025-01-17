@@ -1,10 +1,16 @@
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
 
-    const { user } = useContext(AuthContext);
-    console.log(`user: ${user}`)
+    const { user, isAuthenticated } = useContext(AuthContext);
+    const navigate = useNavigate();
+    
+    if (!isAuthenticated) {
+        navigate('/login');
+        return null;
+    }
 
     return (
         <div>

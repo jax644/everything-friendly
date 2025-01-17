@@ -7,7 +7,9 @@ function Footer () {
     const navigate = useNavigate();
 
     const handleLogout = () => {
+        console.log('Logging out...')
         logout();
+        console.log('Redirecting to login page...')
         navigate('/login');
     }
 

@@ -3,7 +3,9 @@ import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 function LoginPage () {
-    const { isAuthenticated, setUser, setIsAuthenticated } = useContext(AuthContext);
+    console.log('Made it to the login page...')
+    const { login, isAuthenticated } = useContext(AuthContext);
+    console.log(`isAuthenticated: ${isAuthenticated}`)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -20,31 +22,10 @@ function LoginPage () {
 
     async function handleSubmit (event) {
         event.preventDefault();
-
-        try {
-        const response = await fetch(`${BASE_URL}/auth/login`, {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Login failed');
-        }
-
-        // Update authentication state
-        setIsAuthenticated(true);
-        setUser(data.user);
-            console.log(`${data.user} is logged in`)
-        navigate('/');
-        } catch (err) {
-        setError(err.message);
-        }
-    };
+        console.log(login)
+        await login(email, password);
+        navigate('/dashboard');
+    }
 
   return (
     <div>
@@ -90,7 +71,8 @@ function LoginPage () {
         {error && <p style={{ color: 'red' }}>{error}</p>}
 
         <p>Don&apos;t have an account? 
-            <a href="/register">Register</a>
+            <a href="/signup">Sign up</a>
+            
         </p>
     </div>
   );

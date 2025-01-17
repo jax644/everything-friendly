@@ -6,14 +6,24 @@ export function useAuth () {
   return useContext(AuthContext);
 }
 
-export function AuthProvider ({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
+export function AuthProvider({ children }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    // Initialize from localStorage if available
+    return localStorage.getItem('isAuthenticated') === 'true';
+  });
+
+  const [user, setUser] = useState(() => {
+    // Retrieve only the 'name' field from localStorage
+    const storedName = localStorage.getItem('userName');
+    return storedName ? { name: storedName } : null;
+  });
+
   const BASE_URL =
     process.env.NODE_ENV === 'production'
       ? 'https://everything-friendly.onrender.com'
       : 'http://localhost:3000';
 
+  // Re-check authentication status on app load
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
@@ -24,35 +34,85 @@ export function AuthProvider ({ children }) {
         if (response.ok) {
           setIsAuthenticated(true);
           setUser(data.user);
-          console.log(`${data.user} is logged in`);
+
+          // Save only the 'name' field to localStorage
+          localStorage.setItem('userName', data.user.name);
+          localStorage.setItem('isAuthenticated', 'true');
+        } else {
+          // Clear localStorage if not authenticated
+          localStorage.removeItem('userName');
+          localStorage.removeItem('isAuthenticated');
+          setIsAuthenticated(false);
         }
       } catch (err) {
         console.error('Error fetching current user:', err);
-      }
-    };
-    fetchCurrentUser();
-  }, []);
-
-    // Logout function
-    const logout = async () => {
-      try {
-        await fetch(`${BASE_URL}/auth/logout`, {
-          method: 'POST',
-          credentials: 'include',
-        });
+        // Clear localStorage on error
+        localStorage.removeItem('userName');
+        localStorage.removeItem('isAuthenticated');
         setIsAuthenticated(false);
-        setUser(null);
-        console.log('User logged out');
-      } catch (err) {
-        console.error('Error logging out:', err);
       }
     };
+
+    if (!isAuthenticated && !user) {
+      fetchCurrentUser();
+    }
+  }, [BASE_URL, isAuthenticated, user]);
+
+  const login = async (email, password) => {
+    try {
+      const response = await fetch(`${BASE_URL}/auth/login`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setIsAuthenticated(true);
+        setUser(data.user);
+
+        // Save only the 'name' field to localStorage
+        localStorage.setItem('userName', data.user.name);
+        localStorage.setItem('isAuthenticated', 'true');
+      } else {
+        throw new Error(data.message || 'Login failed');
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      throw err;
+    }
+  };
+
+  const logout = () => {
+
+    // Trigger server logout
+    fetch(`${BASE_URL}/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+
+    console.log('logout called')
+    setIsAuthenticated(false);
+    setUser(null);
+
+    // Clear localStorage on logout
+    localStorage.removeItem('userName');
+    localStorage.removeItem('isAuthenticated');
+
+    console.log('Logged out')
+    console.log(localStorage.getItem('isAuthenticated'))
+    console.log(localStorage.getItem('userName'))
+  };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, setIsAuthenticated, setUser, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, user, setIsAuthenticated, setUser, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
-};
+}
+
 
 export default AuthContext;

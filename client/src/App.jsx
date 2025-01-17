@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import Header from './components/Header';
 import RecipeGenerationForm from './components/RecipeGenerationForm';
 import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
 import Dashboard from './pages/Dashboard';
 import Footer from './components/Footer';
 import './App.css'
@@ -18,6 +19,7 @@ function App() {
             {/* Public routes */}
             <Route path="/" element={<RecipeGenerationForm />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
             
             {/* Protected routes */}
             <Route path="/dashboard" element={<Dashboard />} />

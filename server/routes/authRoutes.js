@@ -25,6 +25,6 @@ router.get('/current-user', (req,res) => {
   }
 });
 
-router.get('/logout', AuthController.logout);
+router.post('/logout', AuthController.logout);
 
 module.exports = router;
