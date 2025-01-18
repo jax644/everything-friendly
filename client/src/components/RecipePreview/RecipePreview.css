@@ -1,18 +1,58 @@
 .recipe-preview {
-    width:30%;
-    height:10em;
-}
-
-.recipe-preview img {
+    position: relative;
+    display: inline-block;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-
+    max-width: 300px; /* You can adjust this to fit your layout */
 }
 
-.recipe-preview img:hover {
-    cursor: pointer;
-    /* Darken image */
-    filter: brightness(50%);
+.recipe-link {
+    display: block;
+    position: relative;
+}
+
+.image-container {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    border-radius: 10px;
+    height: 15em;
+}
+
+.recipe-image {
+    width: 100%;
+    object-fit:cover;
+    height: 100%;
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Darkens the image */
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+}
+
+.recipe-preview:hover .recipe-image {
+    opacity: 0.7; /* Slightly darkens the image */
+    transform: scale(1.1); /* Optional: zoom effect on hover */
+}
+
+.recipe-preview:hover .overlay {
+    opacity: 1; /* Show overlay */
+}
+
+.recipe-title {
+    color: white;
+    font-size: 1.5rem; /* Adjust title size */
+    text-align: center;
+    margin: 0;
+    padding: 0 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adds a shadow to the text for better readability */
 }

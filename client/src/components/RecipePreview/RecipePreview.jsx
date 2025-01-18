@@ -14,7 +14,16 @@ function RecipePreview({ recipe, index }) {
                     preferences: recipe.preferences
                 }}
             >
-                <img src={recipe.recipe.imageURL} alt={recipe.recipe.title} />
+                <div className="image-container">
+                    <img 
+                        src={recipe.recipe.imageURL} 
+                        alt={recipe.recipe.title} 
+                        className="recipe-image"
+                    />
+                    <div className="overlay">
+                        <h2 className="recipe-title">{recipe.recipe.title}</h2>
+                    </div>
+                </div>
             </Link>
         </div>
     );
