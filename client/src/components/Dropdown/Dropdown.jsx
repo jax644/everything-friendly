@@ -2,6 +2,7 @@ import './Dropdown.css';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import defaultUserAvatar from '../../assets/default-user-avatar.png';
 
 function UserMenu() {
   
@@ -23,7 +24,7 @@ function UserMenu() {
         
           <div className="dropdown-trigger">
               <img 
-              src={user.avatar}
+              src={user.avatar || defaultUserAvatar}
               alt={user.name} 
               className="avatar"
               />
