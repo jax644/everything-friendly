@@ -1,7 +1,8 @@
 import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
-import logo from '../assets/EF-leaf.png';
-import Dropdown from './Dropdown/Dropdown';
+import { AuthContext } from '../../context/AuthContext.jsx';
+import logo from '../../assets/EF-leaf.png';
+import Dropdown from './Dropdown.jsx';
+import './Header.css';
 
 
 function Header() {

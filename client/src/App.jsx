@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import Header from './components/Header';
+import Header from './components/Header/Header.jsx';
 import GenerateRecipe from './pages/GenerateRecipe.jsx';
 import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';

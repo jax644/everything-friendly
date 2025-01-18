@@ -1,10 +1,9 @@
-import './Dropdown.css';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import defaultUserAvatar from '../../assets/default-user-avatar.png';
 
-function UserMenu() {
+function Dropdown() {
   
     const navigate = useNavigate();
     const { user, logout } = useContext(AuthContext);
@@ -40,4 +39,4 @@ function UserMenu() {
     );
   }
   
-  export default UserMenu;
+  export default Dropdown;
