@@ -63,6 +63,10 @@
         margin-top: 0px;
         font-size:1.7em;
     }
+
+  #recipe-instructions li {
+    padding: .5em 0px;
+  }
   
   #original-recipe-details {
     justify-content: center;

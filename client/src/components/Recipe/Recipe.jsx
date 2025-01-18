@@ -32,7 +32,7 @@ function Recipe({ recipe: propsRecipe, url: propsUrl, preferences: propsPreferen
                         </div>
                     }
                         {/* Display time and yield block only if at least one data point is retrieved */}
-                        { recipe.yield || recipe.activeTime || recipe.totalTime &&
+                        { (recipe.yield || recipe.activeTime || recipe.totalTime) &&
                             <div id="time-and-yield-container">
                                 <h2>Time & Yield</h2>
                                 <ul>
@@ -63,13 +63,12 @@ function Recipe({ recipe: propsRecipe, url: propsUrl, preferences: propsPreferen
                                 </ul>
                             </div>
                         }
-                    </div>
-
-                    <div id="ai-disclaimer">
+                        <div id="ai-disclaimer">
                         <h2>Enjoy safely!</h2>
                         <p>This recipe was generated with Claude’s Anthropic AI. While the AI model is generally reliable, AI recommendations may not always be perfect. Please double-check the recipe ingredients to ensure they meet your preferences and requirements before cooking.</p>
                     </div>
-
+                    </div>
+                    
                 <div id="ingredients-and-instructions" className="flex-column">
                     <div id="recipe-ingredients-container">
                         <h2>Ingredients</h2>
