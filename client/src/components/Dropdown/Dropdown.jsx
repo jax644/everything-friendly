@@ -18,22 +18,23 @@ function UserMenu() {
     }
 
     return (
+      <div className="dropdown-container">
+        <div className="dropdown">
+        
+          <div className="dropdown-trigger">
+              <img 
+              src={user.avatar}
+              alt={user.name} 
+              className="avatar"
+              />
+          </div>
 
-      <div className="dropdown">
-      
-        <div className="dropdown-trigger">
-            <img 
-            src={user.avatar}
-            alt={user.name} 
-            className="avatar"
-            />
+          <div className="dropdown-content">
+            <a href="/dashboard">Dashboard</a>
+            <a href="#" onClick={handleLogout}>Sign Out</a>
+          </div>
+
         </div>
-
-        <div className="dropdown-content">
-          <a href="/dashboard">Dashboard</a>
-          <a href="#" onClick={handleLogout}>Sign Out</a>
-        </div>
-
       </div>
     );
   }
