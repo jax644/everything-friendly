@@ -13,7 +13,7 @@ function Recipe({ recipe: propsRecipe, url: propsUrl, preferences: propsPreferen
     const preferences = propsPreferences || state.preferences;
 
     if (!recipe || !url || !preferences) {
-        return <p>Error: Recipe details are missing.</p>;
+        return null;
     }
 
     return (

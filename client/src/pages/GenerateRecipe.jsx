@@ -130,7 +130,7 @@ function GenerateRecipe() {
                     />
                     { recipe &&
                         <div className="flexed-button-pair">
-                            <button id="save-recipe" class="secondary-button" onClick={saveRecipe}>Save recipe</button>
+                            <button id="save-recipe" className="secondary-button" onClick={saveRecipe}>Save recipe</button>
                                 { recipeSaved && <p>Recipe saved successfully!</p> }
                                 { recipeSaveError && <p>Error saving recipe</p> }
                             <button id="make-another" onClick={makeAnother}>Make another recipe</button>
