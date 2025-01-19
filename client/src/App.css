@@ -43,6 +43,9 @@ button {
   border-radius: 8px;
   font-weight: light;
   height: 2.5em;
+  display:flex;
+  align-items: center;
+  justify-content: center;
 }
 
 button:hover {
@@ -80,6 +83,7 @@ form {
   align-items: flex-start;
   background-color: white;
   padding: 1em;
+  margin:1em;
   gap:1em;
   border-radius: 10px;
 }

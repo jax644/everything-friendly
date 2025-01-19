@@ -31,21 +31,7 @@ function LoginPage () {
     }
 
   return (
-    <div>
-        <h2>Sign in </h2>
-
-        <a href= {BASE_URL + '/auth/google'}>
-            <button>
-                <img
-                    src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-                    alt="Google logo"
-                    style={{ width: '15px', height: '15px' }}
-                />
-                Continue with Google
-            </button>
-        </a>
-
-        <p>or</p>
+    <>
 
         <form onSubmit={handleSubmit}>
             <label htmlFor="email">Email address</label>
@@ -68,16 +54,30 @@ function LoginPage () {
                     onChange={(event) => setPassword(event.target.value)}
                     placeholder="Your password"
                 />
-            <button type="submit">Sign in</button>
+            <button type="submit" className="secondary-button">Sign in</button>
         </form>
 
         {error && <p style={{ color: 'red' }}>{error}</p>}
 
-        <p>Don&apos;t have an account? 
-            <a href="/signup">Sign up</a>
+        <p>or</p>
+
+        <a href= {BASE_URL + '/auth/google'}>
+            <button>
+                <img
+                    src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                    alt="Google logo"
+                    style={{ width: '15px', height: '15px', margin: '5px'}}
+                />
+                <span>Sign in with Google</span>
+            </button>
+        </a>
+
+        <br/><br/>
+        <p>Don't have an account? 
+            <a href="/signup"><p>Sign up</p></a>
             
         </p>
-    </div>
+    </>
   );
 };
 
