@@ -61,11 +61,11 @@ function Dashboard() {
             <hr/>
             <h2>My Recipes</h2>
             <div id="recipe-preview-container" className="flex">
-                { recipes 
+                { recipes.length > 0 
                     ?
                     recipes.map((recipe, index) => (
                         <RecipePreview recipe={recipe} index={index}/>
-                    ))
+                    )).reverse()
                     :
                     <p>No recipes to show. Try generating a new recipe now!</p>
                 }

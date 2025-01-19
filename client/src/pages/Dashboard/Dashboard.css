@@ -1,4 +1,5 @@
 .dashboard {
+   
     box-sizing: border-box;
     width: 90%;
     justify-content: center;
@@ -8,9 +9,11 @@
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
   }
 
+
   #recipe-preview-container {
+    width: auto;
     padding:0px 5% 1em;
     flex-wrap: wrap;
-    justify-content: left;
+    justify-content: center;
     gap: 1em;
   }
