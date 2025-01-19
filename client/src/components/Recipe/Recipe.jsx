@@ -108,7 +108,8 @@ function Recipe({ recipe: propsRecipe, url: propsUrl, preferences: propsPreferen
                 </p>
             </div>
         </section>
-
+        
+        {/* Display back to dashboard link only if recipe was requested from dashboard */}
         { state === location.state &&
             <a href="/dashboard">Back to dashboard</a>
         }

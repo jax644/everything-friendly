@@ -82,6 +82,7 @@ function GenerateRecipe() {
     // Function to reset the page so that the user can generate another recipe
     function makeAnother() {
         setRecipe(null);
+        setUrl('');
         setShowForm(true);
         setIsLoading(false);
     }
