@@ -23,22 +23,21 @@ function Dropdown() {
     }
 
     return (
-      <div className="dropdown-container">
-        <div className="dropdown">
-        
-          <div className="dropdown-trigger" onClick={handleDropdownClick}>
-              <img 
-              src={user.avatar || defaultUserAvatar}
-              alt={user.name} 
-              className="avatar"
-              />
-          </div>
+      <div className="dropdown">
+      
+        <div className="dropdown-trigger" onClick={handleDropdownClick}>
+            <img 
+            src={user.avatar || defaultUserAvatar}
+            alt={user.name} 
+            className="avatar"
+            />
+        </div>
 
-          <div className={isDropdownOpen ? "dropdown-content show" : "dropdown-content"}>
+        <div className={isDropdownOpen ? "dropdown-content show" : "dropdown-content"}>
+          <nav>
             <a href="/dashboard">Dashboard</a>
             <a href="#" onClick={handleLogout}>Sign Out</a>
-          </div>
-
+          </nav>
         </div>
       </div>
     );

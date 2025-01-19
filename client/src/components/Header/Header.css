@@ -28,7 +28,12 @@ header h2 {
     margin-top: 0px;
 }
 
-/* Dropdown styles */
+/* Nav / Dropdown styles */
+
+.nav-container {
+    display: flex;
+    justify-content: right;
+}
 
 .dropdown-container {
     display: flex;

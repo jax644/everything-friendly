@@ -11,11 +11,17 @@ function Header() {
 
     return (
         <header>
-          {isAuthenticated 
-          ? 
-          <Dropdown />
-          : 
-          <a href="/login"><span>Sign in</span></a>}
+          <div className="nav-container">
+              {isAuthenticated 
+                  ? 
+                  <Dropdown />
+                  : 
+                  <nav>
+                      <a href="/login">Sign in</a>
+                  </nav>
+              }
+          </div>
+         
           
             <div>
               <a href="/">
