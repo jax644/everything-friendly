@@ -23,6 +23,12 @@ export function AuthProvider({ children }) {
       ? 'https://everything-friendly.onrender.com'
       : 'http://localhost:3000';
 
+  // Utility function to exclude sensitive fields
+  const sanitizeUser = (user) => {
+    const { password, ...safeUser } = user || {};
+    return safeUser;
+  };
+
   // Re-check authentication status on app load
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -33,10 +39,11 @@ export function AuthProvider({ children }) {
         const data = await response.json();
         if (response.ok) {
           setIsAuthenticated(true);
-          setUser(data.user);
+          const sanitizedUser = sanitizeUser(data.user);
+          setUser(sanitizedUser);
 
-          // Save the entire user object to localStorage
-          localStorage.setItem('user', JSON.stringify(data.user));
+          // Save the sanitized user object to localStorage
+          localStorage.setItem('user', JSON.stringify(sanitizedUser));
           localStorage.setItem('isAuthenticated', 'true');
         } else {
           // Clear localStorage if not authenticated
@@ -70,10 +77,11 @@ export function AuthProvider({ children }) {
       const data = await response.json();
       if (response.ok) {
         setIsAuthenticated(true);
-        setUser(data.user);
+        const sanitizedUser = sanitizeUser(data.user);
+        setUser(sanitizedUser);
 
-        // Save the entire user object to localStorage
-        localStorage.setItem('user', JSON.stringify(data.user));
+        // Save the sanitized user object to localStorage
+        localStorage.setItem('user', JSON.stringify(sanitizedUser));
         localStorage.setItem('isAuthenticated', 'true');
       } else {
         throw new Error(data.message || 'Login failed');
@@ -107,5 +115,6 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
+
 
 export default AuthContext;
