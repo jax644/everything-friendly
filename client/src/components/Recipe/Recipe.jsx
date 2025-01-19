@@ -17,6 +17,7 @@ function Recipe({ recipe: propsRecipe, url: propsUrl, preferences: propsPreferen
     }
 
     return (
+        <>
         <section id="recipe-container" className="flex-column">
 
             <h1 id="recipe-title">{recipe.title}</h1>
@@ -107,6 +108,12 @@ function Recipe({ recipe: propsRecipe, url: propsUrl, preferences: propsPreferen
                 </p>
             </div>
         </section>
+
+        { state === location.state &&
+            <a href="/dashboard">Back to dashboard</a>
+        }
+        
+        </> 
     )
 }
 
