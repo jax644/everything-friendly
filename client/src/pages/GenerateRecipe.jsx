@@ -14,6 +14,7 @@ function GenerateRecipe() {
     const [recipe, setRecipe] = useState(null);
     const [recipeSaved, setRecipeSaved] = useState(false);
     const [recipeSaveError, setRecipeSaveError] = useState(false);
+    const [formSumbitted, setFormSubmitted] = useState(false);
 
     const [url, setUrl] = useState('');
     const [preferences, setPreferences] = useState('');
@@ -34,6 +35,7 @@ function GenerateRecipe() {
         // Prevent refresh
         event.preventDefault();
 
+        setFormSubmitted(true); // Call the Recipe component
         setIsLoading(true); // Show LoadingDisplay
     
         try {
@@ -83,6 +85,7 @@ function GenerateRecipe() {
     function makeAnother() {
         setRecipe(null);
         setUrl('');
+        setFormSubmitted(false);
         setShowForm(true);
         setIsLoading(false);
     }
@@ -119,24 +122,22 @@ function GenerateRecipe() {
                 </>
             }
 
-            {isLoading 
-                ? 
-                <LoadingDisplay /> 
-                :
+            {isLoading && <LoadingDisplay /> }
+                
+            { !isLoading && formSumbitted && 
                 <>
                     <Recipe 
                         recipe={recipe} 
                         url={url} 
                         preferences={preferences} 
                     />
-                    { recipe &&
-                        <div className="flexed-button-pair">
-                            <button id="save-recipe" className="secondary-button" onClick={saveRecipe}>Save recipe</button>
-                                { recipeSaved && <p>Recipe saved successfully!</p> }
-                                { recipeSaveError && <p>Error saving recipe</p> }
-                            <button id="make-another" onClick={makeAnother}>Make another recipe</button>
-                        </div>
-                    }
+                
+                    <div className="flexed-button-pair">
+                        <button id="save-recipe" className="secondary-button" onClick={saveRecipe}>Save recipe</button>
+                            { recipeSaved && <p>Recipe saved successfully!</p> }
+                            { recipeSaveError && <p>Error saving recipe</p> }
+                        <button id="make-another" onClick={makeAnother}>Make another recipe</button>
+                    </div>
                 </>
             }
         </>

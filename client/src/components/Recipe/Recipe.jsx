@@ -13,7 +13,12 @@ function Recipe({ recipe: propsRecipe, url: propsUrl, preferences: propsPreferen
     const preferences = propsPreferences || state.preferences;
 
     if (!recipe || !url || !preferences) {
-        return null;
+        return (
+            <div>
+                <h1>It's all our fault!</h1>
+                <p>Something funky happened. Please try again.</p>
+            </div>
+        )
     }
 
     return (
