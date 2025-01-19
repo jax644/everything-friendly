@@ -23,9 +23,10 @@ function GenerateRecipe() {
     const BASE_URL = isProduction ? 'https://everything-friendly.onrender.com' : 'http://localhost:3000';
 
     const {user} = useContext(AuthContext);
-    console.log('user:')
-    console.log(user._id)
-    let userID = user._id
+    let userID = null;
+    if (user) {
+        userID = user._id;
+    }
 
 
     // Function to generate a new recipe using the URL and preferences from the user
