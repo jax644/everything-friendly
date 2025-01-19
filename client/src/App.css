@@ -121,6 +121,19 @@ form button {
   text-align: left;
 }
 
+.flexed-button-pair {
+  display: flex;
+  gap: 1em;
+  width: 90%;
+  justify-content: center;
+  flex-wrap:wrap;
+}
+
+.flexed-button-pair button {
+  width:30%;
+  min-width:200px;
+}
+
 /* Animations */
 
 /* Loading animation */
@@ -199,10 +212,7 @@ form button {
   #recipe-container {
       width:95%;
   }
-  #ai-disclaimer, #make-another {
-      display:none;
-  }
-  #ai-disclaimer-mobile, #make-another-mobile {
+  #ai-disclaimer-mobile {
       display:block;
   }
   #recipe-details {
@@ -217,10 +227,6 @@ form button {
 
   #recipe-details {
       padding:0px;
-  }
-
-  #make-another-mobile {
-      margin: .5em auto 1.5em;
   }
 
   #original-recipe-details {
