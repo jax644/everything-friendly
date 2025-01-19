@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import defaultUserAvatar from '../../assets/default-user-avatar.png';
@@ -7,6 +7,7 @@ function Dropdown() {
   
     const navigate = useNavigate();
     const { user, logout } = useContext(AuthContext);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     console.log(user)
 
@@ -17,11 +18,15 @@ function Dropdown() {
         navigate('/login');
     }
 
+    const handleDropdownClick = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    }
+
     return (
       <div className="dropdown-container">
         <div className="dropdown">
         
-          <div className="dropdown-trigger">
+          <div className="dropdown-trigger" onClick={handleDropdownClick}>
               <img 
               src={user.avatar || defaultUserAvatar}
               alt={user.name} 
@@ -29,7 +34,7 @@ function Dropdown() {
               />
           </div>
 
-          <div className="dropdown-content">
+          <div className={isDropdownOpen ? "dropdown-content show" : "dropdown-content"}>
             <a href="/dashboard">Dashboard</a>
             <a href="#" onClick={handleLogout}>Sign Out</a>
           </div>

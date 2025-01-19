@@ -78,7 +78,8 @@ header h2 {
       display: flex;
       flex-direction: column;
     }
-    
-    .dropdown:hover .dropbtn {
-      background-color: #3e8e41;
+
+    .open {
+        display: flex;
+        flex-direction: column;
     }
