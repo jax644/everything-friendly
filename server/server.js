@@ -63,6 +63,9 @@ if (process.env.NODE_ENV === 'production') {
   });
 } else {
   app.use(express.static(path.join(__dirname, '../client/public')))
+  app.get('/', (req, res) => {
+    res.redirect(`${FRONTEND_BASE_URL}`);
+  })
 }
 
 // Error handling
