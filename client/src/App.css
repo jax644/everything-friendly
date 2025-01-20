@@ -195,50 +195,6 @@ form button {
 
 
 
-/* Media queries */
-
-/* Desktop */
-@media only screen and (max-width: 1200px) {}
-
-/* Small Screens and Laptops */
-@media only screen and (max-width: 1024px) {
-  #recipe-block-container {
-      flex-direction: column;
-  }
-  #ingredients-and-instructions {
-      flex-direction: column;
-  }
-}
-
-/* Tablet */
-
-@media only screen and (max-width: 900px) {
-  #recipe-container {
-      width:95%;
-  }
-  #ai-disclaimer-mobile {
-      display:block;
-  }
-  #recipe-details {
-      flex-direction: column;
-  }
-}
-
-/* Mobile */
-@media only screen and (max-width: 480px) {
-
-  
-
-  #recipe-details {
-      padding:0px;
-  }
-
-  #original-recipe-details {
-      flex-direction: column;
-      gap:0px;
-  }
-}
-
 @media only screen and (max-width: 388px) {
   .logo {
       transform: rotate(-0.25turn)

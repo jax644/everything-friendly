@@ -73,7 +73,7 @@
     gap: 2em;
   }
   
-  #ai-disclaimer-mobile, #make-another-mobile {
+  #ai-disclaimer-mobile {
     display:none;
     margin:auto;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
@@ -84,3 +84,48 @@
         font-size:1em;
         margin:0px;
   }
+
+  /* Media queries */
+
+/* Desktop */
+@media only screen and (max-width: 1200px) {}
+
+/* Small Screens and Laptops */
+@media only screen and (max-width: 1024px) {
+  #recipe-block-container {
+      flex-direction: column;
+  }
+  #ingredients-and-instructions {
+      flex-direction: column;
+  }
+}
+
+/* Tablet */
+
+@media only screen and (max-width: 900px) {
+  #recipe-container {
+      width:95%;
+  }
+  #ai-disclaimer {
+      display:none;
+  }
+  #ai-disclaimer-mobile {
+      display:block;
+  }
+  #recipe-details {
+      flex-direction: column;
+  }
+}
+
+/* Mobile */
+@media only screen and (max-width: 480px) {
+
+  #recipe-details {
+      padding:0px;
+  }
+
+  #original-recipe-details {
+      flex-direction: column;
+      gap:0px;
+  }
+}
