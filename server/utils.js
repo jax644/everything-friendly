@@ -44,7 +44,7 @@ function replaceBrWithBreak(html) {
 }
 
 // BASE_URL constant
-const BASE_URL = process.env.NODE_BASE_URL || 'http://localhost:3000';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL || 'http://localhost:5173';
 
 // Export all utilities and constants
