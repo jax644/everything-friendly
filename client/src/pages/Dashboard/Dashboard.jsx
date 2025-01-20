@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import RecipePreview from '../../components/RecipePreview/RecipePreview';
 import './Dashboard.css';
-
-const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://everything-friendly.onrender.com' : 'http://localhost:3000';
+import BASE_URL from '../../../utils';
 
 function Dashboard() {
     const { user, isAuthenticated } = useContext(AuthContext);

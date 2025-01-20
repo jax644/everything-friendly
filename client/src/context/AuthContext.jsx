@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import BASE_URL from '../../utils';
 
 export const AuthContext = createContext();
 
@@ -17,11 +18,6 @@ export function AuthProvider({ children }) {
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
   });
-
-  const BASE_URL =
-    process.env.NODE_ENV === 'production'
-      ? 'https://everything-friendly.onrender.com'
-      : 'http://localhost:3000';
 
   // Utility function to exclude sensitive fields
   const sanitizeUser = (user) => {

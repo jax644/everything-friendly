@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import BASE_URL from '../../utils';
 
 function LoginPage () {
     console.log('Made it to the login page...')
@@ -10,10 +11,6 @@ function LoginPage () {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-
-    const BASE_URL = process.env.NODE_ENV === 'production' 
-    ? 'https://everything-friendly.onrender.com' 
-    : 'http://localhost:3000'
     
     // Redirect user to their dashboard if they are already logged in
     useEffect(() => {

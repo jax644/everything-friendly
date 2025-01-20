@@ -7,6 +7,7 @@ import LoadingDisplay from '../components/LoadingDisplay/LoadingDisplay.jsx';
 import Recipe from '../components/Recipe/Recipe.jsx';
 import { cleanData } from '../../utils.js';
 import { useNavigate } from 'react-router-dom';
+import BASE_URL from '../../utils.js';
 
 
 function GenerateRecipe() {
@@ -20,10 +21,6 @@ function GenerateRecipe() {
     const [url, setUrl] = useState('');
     const [preferences, setPreferences] = useState('');
     const navigate = useNavigate();
-
-    // Set the base URL for the API call based on dev or production environment
-    const isProduction= process.env.NODE_ENV === 'production';
-    const BASE_URL = isProduction ? 'https://everything-friendly.onrender.com' : 'http://localhost:3000';
 
     const {user} = useContext(AuthContext);
     let userID = null;
