@@ -1,16 +1,19 @@
 const { JSDOM } = require("jsdom");
 const sanitizeHtml = require("sanitize-html");
 const RecipeClipper = require("@julianpoy/recipe-clipper");
-exports.isValidUrl = (string) => {
+
+// Utility function to check if a string is a valid URL
+function isValidUrl(string) {
     try {
         new URL(string);
         return true;
     } catch (error) {
         return false;
     }
-};
+}
 
-exports.clipRecipeFromUrl = async (clipUrl) => {
+// Utility function to clip a recipe from a URL
+async function clipRecipeFromUrl(clipUrl) {
     const response = await fetch(clipUrl);
     const html = await response.text();
     const dom = new JSDOM(html);
@@ -33,6 +36,22 @@ exports.clipRecipeFromUrl = async (clipUrl) => {
         mlDisable: false,
         ignoreMLClassifyErrors: true,
     });
-};
+}
 
-const replaceBrWithBreak = (html) => html.replaceAll(/<br( \/)?>/g, "\n");
+// Utility function to replace <br> tags with newline characters
+function replaceBrWithBreak(html) {
+    return html.replaceAll(/<br( \/)?>/g, "\n");
+}
+
+// BASE_URL constant
+const BASE_URL = process.env.NODE_BASE_URL || 'http://localhost:3000';
+const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL || 'http://localhost:5173';
+
+// Export all utilities and constants
+module.exports = {
+    isValidUrl,
+    clipRecipeFromUrl,
+    replaceBrWithBreak,
+    BASE_URL,
+    FRONTEND_BASE_URL
+};

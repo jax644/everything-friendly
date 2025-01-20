@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
+const { FRONTEND_BASE_URL } = require('../utils');
 
 console.log('AuthController loaded')
 
@@ -49,7 +50,7 @@ class AuthController {
   static async googleCallback(req, res) {
     console.log('googleCallback called')
     // Successful authentication, redirect to dashboard
-    res.redirect('http://localhost:5173/dashboard');
+    res.redirect(`${FRONTEND_BASE_URL}/dashboard`);
   }
 
   static async logout(req, res) {

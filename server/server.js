@@ -9,13 +9,11 @@ const mongoose = require('mongoose');
 const homeRoutes = require('./routes/homeRoutes');
 const apiRoutes = require('./routes/apiRoutes');
 const authRoutes = require('./routes/authRoutes')
+const {BASE_URL, FRONTEND_BASE_URL} = require('./utils')
 
 const app = express();
 
-const allowedOrigins = [
-    'http://localhost:5173',
-    'https://everything-friendly.onrender.com'
-]
+const allowedOrigins = [`${BASE_URL}`, `${FRONTEND_BASE_URL}`];
 
 // Static files
 const isProduction = process.env.NODE_ENV === 'production';

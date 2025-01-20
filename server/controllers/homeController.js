@@ -1,4 +1,5 @@
 const path = require('path');
+const { FRONTEND_BASE_URL } = require('../utils');
 
 exports.renderHomePage = (req, res) => {
         console.log('renderHomePage called')
@@ -7,5 +8,5 @@ exports.renderHomePage = (req, res) => {
         isProduction ?
             res.sendFile(path.join(__dirname, '../../client/dist', 'index.html'))
             :
-            res.redirect('http://localhost:5173');
+            res.redirect(`${FRONTEND_BASE_URL}`);
     };
