@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import BASE_URL from '../../utils';
+import { BASE_URL } from '../../utils';
 
 function SignUpPage() {
     const { register, login, isAuthenticated } = useContext(AuthContext);

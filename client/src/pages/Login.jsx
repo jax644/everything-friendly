@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import BASE_URL from '../../utils';
+import { BASE_URL } from '../../utils';
 
 function LoginPage () {
     console.log('Made it to the login page...')
