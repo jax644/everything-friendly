@@ -13,10 +13,12 @@ function SignUpPage() {
     ? 'https://everything-friendly.onrender.com' 
     : 'http://localhost:3000'
 
-    if (isAuthenticated) {
-        navigate('/dashboard');
-        return null
-    }
+    // Reditect user to their dashboard if they are already logged in
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/dashboard');
+        }
+    }, [isAuthenticated,navigate]);
 
     async function handleSubmit (event) {
         event.preventDefault();

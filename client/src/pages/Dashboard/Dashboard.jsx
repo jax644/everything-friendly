@@ -14,11 +14,11 @@ function Dashboard() {
     const [recipes, setRecipes] = useState([]);
     const navigate = useNavigate();
 
-        useEffect(() => {
-            if (user && user._id) {
-                getRecipes();
-            }
-        }, []);
+    useEffect(() => {
+        if (user && user._id) {
+            getRecipes();
+        }
+    }, [user]);
  
 
     async function getRecipes() {
@@ -67,7 +67,7 @@ function Dashboard() {
                         <RecipePreview recipe={recipe} index={index}/>
                     )).reverse()
                     :
-                    <p>No recipes to show. Try generating a new recipe now!</p>
+                    <p>No recipes to show. <a href="/">Generate a new recipe now!</a></p>
                 }
             </div>
             <hr/>

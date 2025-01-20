@@ -44,7 +44,7 @@ class AuthController {
 
   static async googleCallback(req, res) {
     // Successful authentication, redirect home
-    res.redirect('/');
+    res.redirect('http://localhost:5173/dashboard');
   }
 
   static async logout(req, res) {

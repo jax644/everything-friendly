@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,14 +14,13 @@ function LoginPage () {
     const BASE_URL = process.env.NODE_ENV === 'production' 
     ? 'https://everything-friendly.onrender.com' 
     : 'http://localhost:3000'
-
-    // Reditect user to their dashboard if they are already logged in
     
-    if (isAuthenticated) {
-        console.log("Already logged in; redirecting to dashboard")
-        navigate('/dashboard');
-        return null
-    }
+    // Reditect user to their dashboard if they are already logged in
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/dashboard');
+        }
+    }, [isAuthenticated,navigate]);
 
     async function handleSubmit (event) {
         event.preventDefault();
