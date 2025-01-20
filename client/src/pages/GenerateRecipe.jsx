@@ -6,6 +6,7 @@ import axios from 'axios';
 import LoadingDisplay from '../components/LoadingDisplay/LoadingDisplay.jsx';
 import Recipe from '../components/Recipe/Recipe.jsx';
 import { cleanData } from '../../utils.js';
+import { useNavigate } from 'react-router-dom';
 
 
 function GenerateRecipe() {
@@ -18,6 +19,7 @@ function GenerateRecipe() {
 
     const [url, setUrl] = useState('');
     const [preferences, setPreferences] = useState('');
+    const navigate = useNavigate();
 
     // Set the base URL for the API call based on dev or production environment
     const isProduction= process.env.NODE_ENV === 'production';
@@ -62,18 +64,30 @@ function GenerateRecipe() {
             // Reset error and saved state before starting
             setRecipeSaveError(false);
             setRecipeSaved(false);
-            
-            // Send the recipe and user data to the server
-            console.log(`userID: ${userID}, recipe: ${recipe}, url: ${url}, preferences: ${preferences}`)
-            const response = await axios.post(`${BASE_URL}/api/save-recipe`, { userID, recipe,  url, preferences });
-            
-            // Handle server response (optional: check for success status)
-            if (response.status === 200) {
-                setRecipeSaved(true);
-                console.log('Recipe saved successfully:', response.data);
-            } else {
-                throw new Error('Unexpected response from server');
+
+            // Check if user is authenticated
+            if (user) {
+                 // Send the recipe and user data to the server
+                console.log(`userID: ${userID}, recipe: ${recipe}, url: ${url}, preferences: ${preferences}`)
+                const response = await axios.post(`${BASE_URL}/api/save-recipe`, { userID, recipe,  url, preferences });
+                
+                // Handle server response
+                if (response.status === 200) {
+                    setRecipeSaved(true);
+                    console.log('Recipe saved successfully:', response.data);
+                } else {
+                    throw new Error('Unexpected response from server');
+                }
+            } else if (!user){
+                // Save recipe, URL and preferences to local storage
+                localStorage.setItem('cachedRecipe', JSON.stringify(recipe));
+                localStorage.setItem('cachedURL', url);
+                localStorage.setItem('cachedPreferences', preferences);
+
+                // Redirect to login page
+                navigate('/login');
             }
+
         } catch (error) {
             // Log the error and set the error state
             setRecipeSaveError(true);

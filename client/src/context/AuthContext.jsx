@@ -29,7 +29,7 @@ export function AuthProvider({ children }) {
     return safeUser;
   };
 
-  // Re-check authentication status on app load
+  // Re-check authentication status on app load (handles Google login)
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
@@ -64,6 +64,32 @@ export function AuthProvider({ children }) {
       fetchCurrentUser();
     }
   }, [BASE_URL, isAuthenticated, user]);
+
+  const register = async (name, email, password) => {
+    try {
+      const response = await fetch(`${BASE_URL}/auth/register`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setIsAuthenticated(true);
+        const sanitizedUser = sanitizeUser(data.user);
+        setUser(sanitizedUser);
+
+        localStorage.setItem('user', JSON.stringify(sanitizedUser));
+        localStorage.setItem('isAuthenticated', 'true');
+      } else {
+        throw new Error(data.message || 'Registration failed');
+      }
+    } catch (err) {
+      console.error('Registration error:', err);
+      throw err;
+    }
+  };
 
   const login = async (email, password) => {
     try {
@@ -109,7 +135,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, user, setIsAuthenticated, setUser, login, logout }}
+      value={{ isAuthenticated, user, setIsAuthenticated, setUser, register, login, logout }}
     >
       {children}
     </AuthContext.Provider>

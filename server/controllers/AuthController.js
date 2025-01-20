@@ -1,7 +1,10 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
+console.log('AuthController loaded')
+
 class AuthController {
+
   static async register(req, res) {
     console.log(`request:`)
     console.log(req.body)
@@ -38,12 +41,14 @@ class AuthController {
   }
 
   static async login(req, res) {
+    console.log('login called')
     // Passport will handle authentication
     res.json({ user: req.user });
   }
 
   static async googleCallback(req, res) {
-    // Successful authentication, redirect home
+    console.log('googleCallback called')
+    // Successful authentication, redirect to dashboard
     res.redirect('http://localhost:5173/dashboard');
   }
 

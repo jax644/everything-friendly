@@ -1,76 +1,101 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import RecipePreview from '../../components/RecipePreview/RecipePreview';
 import './Dashboard.css';
 
-
 const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://everything-friendly.onrender.com' : 'http://localhost:3000';
 
 function Dashboard() {
-
     const { user, isAuthenticated } = useContext(AuthContext);
     const [recipes, setRecipes] = useState([]);
+    const [loading, setLoading] = useState(true); // Track loading state
     const navigate = useNavigate();
+    const recipeSent = useRef(false);
 
     useEffect(() => {
-        if (user && user._id) {
-            getRecipes();
+        if (!isAuthenticated) {
+            navigate('/login');
+        }
+    }, [isAuthenticated, navigate]);
+
+    useEffect(() => {
+        if (user) {
+            const userID = user._id;
+            const cachedRecipe = JSON.parse(localStorage.getItem('cachedRecipe'));
+            const cachedURL = localStorage.getItem('cachedURL');
+            const cachedPreferences = localStorage.getItem('cachedPreferences');
+
+            const fetchAndSendRecipe = async () => {
+                try {
+                    if (cachedRecipe && !recipeSent.current) {
+                        recipeSent.current = true;
+                        await sendCachedRecipe(userID, cachedRecipe, cachedURL, cachedPreferences);
+                    }
+                    await getRecipes();
+                } catch (error) {
+                    console.error('Error in Dashboard:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchAndSendRecipe();
+        } else {
+            setLoading(false);
         }
     }, [user]);
- 
 
-    async function getRecipes() {
+    async function sendCachedRecipe(userID, cachedRecipe, cachedURL, cachedPreferences) {
         try {
-            // Make the GET request to fetch recipes
-            const response = await axios.get(`${BASE_URL}/api/get-recipes/${user._id}`);
-            
-            // Ensure the response contains the expected data
-            if (response.data && response.data.recipes) {
-                setRecipes(response.data.recipes); // Update the recipes state with the fetched data
-                console.log('Recipes successfully retrieved:', recipes);
+            const response = await axios.post(`${BASE_URL}/api/save-recipe`, {
+                userID,
+                recipe: cachedRecipe,
+                url: cachedURL,
+                preferences: cachedPreferences,
+            });
+            if (response.status === 200) {
+                localStorage.removeItem('cachedRecipe');
+                localStorage.removeItem('cachedURL');
+                localStorage.removeItem('cachedPreferences');
             } else {
-                console.error('Unexpected response structure:', response.data);
+                console.error(`Failed to save recipe: ${response.statusText}`);
             }
         } catch (error) {
-            // Handle HTTP or network errors
-            if (error.response) {
-                // Server responded with a status code outside 2xx range
-                console.error('Error fetching recipes:', error.response.status, error.response.data);
-            } else if (error.request) {
-                // Request was made but no response received
-                console.error('No response received:', error.request);
-            } else {
-                // Other errors during request setup
-                console.error('Error setting up request:', error.message);
-            }
+            console.error('Error saving cached recipe:', error);
         }
     }
 
+    async function getRecipes() {
+        try {
+            if (!user || !user._id) throw new Error("User ID is not available.");
+            const response = await axios.get(`${BASE_URL}/api/get-recipes/${user._id}`);
+            setRecipes(response.data?.recipes.reverse() || []);
+        } catch (error) {
+            console.error('Error fetching recipes:', error);
+        }
+    }
 
-    
-    if (!isAuthenticated) {
-        navigate('/login');
-        return null;
+    if (loading) {
+        return <p>Loading...</p>;
     }
 
     return (
         <div className="dashboard">
-            <h1>{user.name}'s Dashboard</h1>
-            <hr/>
+            <h1>{user?.name}'s Dashboard</h1>
+            <hr />
             <h2>My Recipes</h2>
             <div id="recipe-preview-container" className="flex">
-                { recipes.length > 0 
-                    ?
+                {recipes.length > 0 ? (
                     recipes.map((recipe, index) => (
-                        <RecipePreview recipe={recipe} index={index}/>
-                    )).reverse()
-                    :
+                        <RecipePreview recipe={recipe} index={index} key={index} />
+                    ))
+                ) : (
                     <p>No recipes to show. <a href="/">Generate a new recipe now!</a></p>
-                }
+                )}
             </div>
-            <hr/>
+            <hr />
         </div>
     );
 }

@@ -11,9 +11,9 @@ function Dropdown() {
 
     console.log(user)
 
-    const handleLogout = () => {
+    async function handleLogout () {
         console.log('Logging out...')
-        logout();
+        await logout();
         console.log('Redirecting to login page...')
         navigate('/login');
     }

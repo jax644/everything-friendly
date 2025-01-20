@@ -1,7 +1,6 @@
-  // Remove line breaks and escape characters from Claude's response so that JSON can be parsed
-
 console.log('utils.js loaded')
 
+  // Remove line breaks and escape characters from Claude's response so that JSON can be parsed
 export function cleanData (inputString) {
     try {
       const cleanedString = inputString

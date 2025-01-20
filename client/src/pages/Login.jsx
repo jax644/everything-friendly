@@ -15,17 +15,21 @@ function LoginPage () {
     ? 'https://everything-friendly.onrender.com' 
     : 'http://localhost:3000'
     
-    // Reditect user to their dashboard if they are already logged in
+    // Redirect user to their dashboard if they are already logged in
     useEffect(() => {
         if (isAuthenticated) {
             navigate('/dashboard');
         }
-    }, [isAuthenticated,navigate]);
+    }, []);
 
+    // Handle local auth login form submission
     async function handleSubmit (event) {
         event.preventDefault();
-        console.log(login)
+        
+        // Login the user
         await login(email, password);
+
+        // Redirect the user to the dashboard
         navigate('/dashboard');
     }
 

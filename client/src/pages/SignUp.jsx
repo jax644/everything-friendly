@@ -1,9 +1,9 @@
-import { useState,useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 function SignUpPage() {
-    const { register, isAuthenticated } = useContext(AuthContext);
+    const { register, login, isAuthenticated } = useContext(AuthContext);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,7 +22,12 @@ function SignUpPage() {
 
     async function handleSubmit (event) {
         event.preventDefault();
+
+        // Register the user
         await register(name, email, password);
+        await login(email, password);
+
+        // Redirect to the dashboard
         navigate('/dashboard');
     };
 
