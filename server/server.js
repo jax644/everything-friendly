@@ -55,7 +55,7 @@ app.use('/auth', authRoutes);
 // Serve static files from the React app in production
 if (process.env.NODE_ENV === 'production') {
   // Serve static files from React build folder
-  app.use(express.static(path.join(__dirname, '../client/build')));
+  app.use(express.static(path.join(__dirname, '../client/dist')));
 
   // Catch-all route to handle frontend routes for React in production
   app.get('*', (req, res) => {
