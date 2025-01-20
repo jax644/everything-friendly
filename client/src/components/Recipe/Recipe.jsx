@@ -1,9 +1,13 @@
-import React from 'react';
+import { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import './Recipe.css';
+import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios';
+import { BASE_URL } from '../../../utils';
+import { useNavigate } from 'react-router-dom';
 
 
-function Recipe({ recipe: propsRecipe, url: propsUrl, preferences: propsPreferences }) {
+function Recipe({ recipe: propsRecipe, url: propsUrl, preferences: propsPreferences, makeAnother}) {
     const location = useLocation();
     const state = location.state || {};
     
@@ -11,6 +15,55 @@ function Recipe({ recipe: propsRecipe, url: propsUrl, preferences: propsPreferen
     const recipe = propsRecipe || state.recipe;
     const url = propsUrl || state.url;
     const preferences = propsPreferences || state.preferences;
+
+    const {user} = useContext(AuthContext);
+    let userID = null;
+    if (user) {
+        userID = user._id;
+    }
+
+    const [recipeSaved, setRecipeSaved] = useState(false);
+    const [recipeSaveError, setRecipeSaveError] = useState(false);
+
+    const navigate = useNavigate();
+
+    // Function to save the recipe to the database
+    async function saveRecipe() {
+        try {
+            // Reset error and saved state before starting
+            setRecipeSaveError(false);
+            setRecipeSaved(false);
+
+            // Check if user is authenticated
+            if (user) {
+                 // Send the recipe and user data to the server
+                console.log(`userID: ${userID}, recipe: ${recipe}, url: ${url}, preferences: ${preferences}`)
+                const response = await axios.post(`${BASE_URL}/api/save-recipe`, { userID, recipe,  url, preferences });
+                
+                // Handle server response
+                if (response.status === 200) {
+                    setRecipeSaved(true);
+                    console.log('Recipe saved successfully:', response.data);
+                } else {
+                    throw new Error('Unexpected response from server');
+                }
+            } else if (!user){
+                // Save recipe, URL and preferences to local storage
+                localStorage.setItem('cachedRecipe', JSON.stringify(recipe));
+                localStorage.setItem('cachedURL', url);
+                localStorage.setItem('cachedPreferences', preferences);
+
+                // Redirect to login page
+                navigate('/login');
+            }
+
+        } catch (error) {
+            // Log the error and set the error state
+            setRecipeSaveError(true);
+            console.error('Error saving recipe:', error.response ? error.response.data : error.message);
+        } 
+    }
+
 
     if (!recipe || !url || !preferences) {
         return (
@@ -117,6 +170,15 @@ function Recipe({ recipe: propsRecipe, url: propsUrl, preferences: propsPreferen
         {/* Display back to dashboard link only if recipe was requested from dashboard */}
         { state === location.state &&
             <a href="/dashboard">Back to dashboard</a>
+        }
+
+        { state != location.state &&
+            <div className="flexed-button-pair">
+                <button id="save-recipe" className="secondary-button" onClick={saveRecipe}>Save recipe</button>
+                    { recipeSaved && <p>Recipe saved successfully!</p> }
+                    { recipeSaveError && <p>Error saving recipe</p> }
+                <button id="make-another" onClick={makeAnother}>Make another recipe</button>
+            </div>
         }
         
         </> 

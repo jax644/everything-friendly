@@ -1,32 +1,21 @@
 import { useState } from 'react';
-import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
 
 import LoadingDisplay from '../components/LoadingDisplay/LoadingDisplay.jsx';
 import Recipe from '../components/Recipe/Recipe.jsx';
 import { cleanData } from '../../utils.js';
-import { useNavigate } from 'react-router-dom';
-import BASE_URL from '../../utils.js';
+import { BASE_URL } from '../../utils.js';
 
 
 function GenerateRecipe() {
     const [showForm, setShowForm] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [recipe, setRecipe] = useState(null);
-    const [recipeSaved, setRecipeSaved] = useState(false);
-    const [recipeSaveError, setRecipeSaveError] = useState(false);
+
     const [formSumbitted, setFormSubmitted] = useState(false);
 
     const [url, setUrl] = useState('');
     const [preferences, setPreferences] = useState('');
-    const navigate = useNavigate();
-
-    const {user} = useContext(AuthContext);
-    let userID = null;
-    if (user) {
-        userID = user._id;
-    }
 
 
     // Function to generate a new recipe using the URL and preferences from the user
@@ -55,52 +44,14 @@ function GenerateRecipe() {
         }
     };
     
-    // Function to save the recipe to the database
-    async function saveRecipe() {
-        try {
-            // Reset error and saved state before starting
-            setRecipeSaveError(false);
-            setRecipeSaved(false);
-
-            // Check if user is authenticated
-            if (user) {
-                 // Send the recipe and user data to the server
-                console.log(`userID: ${userID}, recipe: ${recipe}, url: ${url}, preferences: ${preferences}`)
-                const response = await axios.post(`${BASE_URL}/api/save-recipe`, { userID, recipe,  url, preferences });
-                
-                // Handle server response
-                if (response.status === 200) {
-                    setRecipeSaved(true);
-                    console.log('Recipe saved successfully:', response.data);
-                } else {
-                    throw new Error('Unexpected response from server');
-                }
-            } else if (!user){
-                // Save recipe, URL and preferences to local storage
-                localStorage.setItem('cachedRecipe', JSON.stringify(recipe));
-                localStorage.setItem('cachedURL', url);
-                localStorage.setItem('cachedPreferences', preferences);
-
-                // Redirect to login page
-                navigate('/login');
-            }
-
-        } catch (error) {
-            // Log the error and set the error state
-            setRecipeSaveError(true);
-            console.error('Error saving recipe:', error.response ? error.response.data : error.message);
-        } 
-    }
-
-    // Function to reset the page so that the user can generate another recipe
-    function makeAnother() {
-        setRecipe(null);
-        setUrl('');
-        setFormSubmitted(false);
-        setShowForm(true);
-        setIsLoading(false);
-    }
-  
+        // Function to reset the page so that the user can generate another recipe
+        function makeAnother() {
+            setRecipe(null);
+            setUrl('');
+            setFormSubmitted(false);
+            setShowForm(true);
+            setIsLoading(false);
+        }    
 
     return (
         <>
@@ -140,15 +91,11 @@ function GenerateRecipe() {
                     <Recipe 
                         recipe={recipe} 
                         url={url} 
-                        preferences={preferences} 
+                        preferences={preferences}
+                        makeAnother={makeAnother}
                     />
                 
-                    <div className="flexed-button-pair">
-                        <button id="save-recipe" className="secondary-button" onClick={saveRecipe}>Save recipe</button>
-                            { recipeSaved && <p>Recipe saved successfully!</p> }
-                            { recipeSaveError && <p>Error saving recipe</p> }
-                        <button id="make-another" onClick={makeAnother}>Make another recipe</button>
-                    </div>
+                    
                 </>
             }
         </>
