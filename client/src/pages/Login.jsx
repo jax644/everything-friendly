@@ -17,7 +17,7 @@ function LoginPage () {
         if (isAuthenticated) {
             navigate('/dashboard');
         }
-    }, []);
+    }, [isAuthenticated]);
 
     // Handle local auth login form submission
     async function handleSubmit (event) {
