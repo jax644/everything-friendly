@@ -61,23 +61,35 @@ class AuthController {
   
     // Destroy the session on the server side
     if (req.session) {
-      req.session.destroy((err) => {
-        if (err) {
-          console.error('Error destroying session:', err);
-          return res.status(500).json({ message: 'Failed to log out' });
-        }
-  
-        // Optional: Log the user out using Passport (if applicable)
-        if (req.logout) {
-          req.logout(function(err) {
-            if (err) { return (err); }
-            res.redirect('/');
-          });
-        }
-  
-        // Send confirmation to the client
+      try {
+        console.log('destroying session')
+        await req.session.destroy();
+        console.log("destroyed success")
         res.status(200).json({ message: 'Logged out successfully' });
-      });
+        // res.status(200).json({ message: 'Logged out successfully' });
+        // res.redirect(`/`);
+      } catch (err) {
+        console.error('Error destroying session:', err);
+        return res.status(500).json({ message: 'Failed to log out' });
+      }
+
+      // req.session.destroy((err) => {
+      //   if (err) {
+      //     console.error('Error destroying session:', err);
+      //     return res.status(500).json({ message: 'Failed to log out' });
+      //   }
+  
+      //   // Optional: Log the user out using Passport (if applicable)
+      //   if (req.logout) {
+      //     req.logout(function(err) {
+      //       if (err) { return (err); }
+      //       res.redirect('/');
+      //     });
+      //   }
+  
+      //   // Send confirmation to the client
+      //   res.status(200).json({ message: 'Logged out successfully' });
+      // });
     } else {
       // Fallback in case there's no session to destroy
       res.status(200).json({ message: 'Logged out successfully' });
