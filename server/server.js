@@ -14,22 +14,6 @@ const {BASE_URL, FRONTEND_BASE_URL} = require('./utils')
 
 const app = express();
 const allowedOrigins = [`${BASE_URL}`, `${FRONTEND_BASE_URL}`];
-// Serve static files from the React app in production
-if (process.env.NODE_ENV === 'production') {
-  // Serve static files from React build folder
-  app.use(express.static(path.join(__dirname, '../client/dist')));
-
-  // Catch-all route to handle frontend routes for React in production
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
-  });
-} else {
-  app.use(express.static(path.join(__dirname, '../client/public')))
-  app.get('/', (req, res) => {
-    console.log("wtf")
-    res.redirect(`${FRONTEND_BASE_URL}`);
-  })
-}
 
 app.use((req, res, next) => {
   console.log('Session data:', req.session);
@@ -136,6 +120,24 @@ app.use((req, res, next) => {
   console.log('Session dat7:', req.session);
   next();
 });
+
+// Serve static files from the React app in production
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from React build folder
+  app.use(express.static(path.join(__dirname, '../client/dist')));
+
+  // Catch-all route to handle frontend routes for React in production
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+  });
+} else {
+  app.use(express.static(path.join(__dirname, '../client/public')))
+  app.get('/', (req, res) => {
+    console.log("wtf")
+    res.redirect(`${FRONTEND_BASE_URL}`);
+  })
+}
+
 // Error handling
 app.use((req, res, next) => {
     res.status(404).json({ error: 'Route not found' });
