@@ -3,10 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const session = require('express-session');
-const { createClient} = require('redis');
-const connectRedis = require('connect-redis');
 const passport = require('./config/passport');
 const mongoose = require('mongoose');
+
 const homeRoutes = require('./routes/homeRoutes');
 const apiRoutes = require('./routes/apiRoutes');
 const authRoutes = require('./routes/authRoutes')
@@ -39,45 +38,11 @@ app.use(
 // Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Redis client setup
-const redisClient = createClient({
-  username: 'default',
-  password: process.env.REDIS_PASSWORD,
-  socket: {
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT
-  }
-});
-
-redisClient.on('error', (err) => console.error('Redis Client Error:', err));
-
-(async () => {
-  try {
-    await redisClient.connect();
-    console.log('Redis connected successfully');
-  } catch (err) {
-    console.error('Redis connection failed:', err);
-  }
-})();
-
-// Redis session store
-const RedisStore = connectRedis(session);
-
-app.use(
-  session({
-    store: new RedisStore({ client: redisClient }),
+app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      secure: process.env.NODE_ENV === 'production', // Set to true only in production
-      httpOnly: false, // Prevent JavaScript access to the cookie
-      maxAge: 3600000 // 1 hour
-    }
-  })
-);
-
+}));
 
 // Passport middleware
 app.use(passport.initialize());
