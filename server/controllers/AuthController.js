@@ -50,6 +50,10 @@ class AuthController {
   static async googleCallback(req, res) {
     console.log('googleCallback called')
     // Successful authentication, redirect to dashboard
+    console.log("USER SHOULD BE SAVED", req.user);
+    console.log("Session should be saved:", req.session)
+    console.log("Authenticated:", req.isAuthenticated())
+    console.log("Redirecting to: dashboard")
     res.redirect(`${FRONTEND_BASE_URL}/dashboard`);
   }
 
