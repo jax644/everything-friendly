@@ -50,7 +50,7 @@ passport.use(new GoogleStrategy({
     callbackURL: `${BASE_URL}/auth/google/callback`,
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     // prompt: "select_account",
-    state: true
+    // state: true
   },
   async (accessToken, refreshToken, profile, done) => {
     try {

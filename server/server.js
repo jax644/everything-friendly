@@ -15,10 +15,10 @@ const {BASE_URL, FRONTEND_BASE_URL} = require('./utils')
 const app = express();
 const allowedOrigins = [`${BASE_URL}`, `${FRONTEND_BASE_URL}`];
 
-app.use((req, res, next) => {
-  console.log('Session data:', req.session);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log('Session data:', req.session);
+//   next();
+// });
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
@@ -72,10 +72,10 @@ redisClient.on('error', (err) => console.error('Redis Client Error:', err));
 
 // Redis session store
 // const RedisStore = connectRedis(session);
-app.use((req, res, next) => {
-  console.log('Session data2:', req.session);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log('Session data2:', req.session);
+//   next();
+// });
 console.log("typeof", typeof RedisStore)
 let redisStore = new RedisStore({ client: redisClient, prefix: "everything-friendly" });
 app.use(
@@ -86,40 +86,40 @@ app.use(
     saveUninitialized: false,
     cookie: {
       secure: process.env.NODE_ENV === 'production', // Set to true only in production
-      httpOnly: false, // Prevent JavaScript access to the cookie
+      httpOnly: true, // Prevent JavaScript access to the cookie
       maxAge: 3600000 // 1 hour
     }
   })
 );
 
-app.use((req, res, next) => {
-  console.log('Session data3:', req.session);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log('Session data3:', req.session);
+//   next();
+// });
 
 // Passport middleware
 app.use(passport.initialize());
-app.use((req, res, next) => {
-  console.log('Session data4:', req.session);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log('Session data4:', req.session);
+//   next();
+// });
 app.use(passport.session());
-app.use((req, res, next) => {
-  console.log('Session dat5:', req.session);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log('Session dat5:', req.session);
+//   next();
+// });
 
 // Routes
 app.use('/api', apiRoutes);
-app.use((req, res, next) => {
-  console.log('Session dat6:', req.session);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log('Session dat6:', req.session);
+//   next();
+// });
 app.use('/auth', authRoutes);
-app.use((req, res, next) => {
-  console.log('Session dat7:', req.session);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log('Session dat7:', req.session);
+//   next();
+// });
 
 // Serve static files from the React app in production
 if (process.env.NODE_ENV === 'production') {
@@ -133,7 +133,7 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   app.use(express.static(path.join(__dirname, '../client/public')))
   app.get('/', (req, res) => {
-    console.log("wtf")
+    // console.log("wtf")
     res.redirect(`${FRONTEND_BASE_URL}`);
   })
 }

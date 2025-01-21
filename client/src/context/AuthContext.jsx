@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { useCallback, createContext, useContext, useState, useEffect } from 'react';
 import { BASE_URL } from '../../utils';
 
 export const AuthContext = createContext();
@@ -24,40 +24,68 @@ export function AuthProvider({ children }) {
     const { password, ...safeUser } = user || {};
     return safeUser;
   };
+  const fetchCurrentUser = useCallback(async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/auth/current-user`, {
+        credentials: 'include',
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setIsAuthenticated(true);
+        const sanitizedUser = sanitizeUser(data.user);
+        setUser(sanitizedUser);
 
-  // Re-check authentication status on app load (handles Google login)
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const response = await fetch(`${BASE_URL}/auth/current-user`, {
-          credentials: 'include',
-        });
-        const data = await response.json();
-        if (response.ok) {
-          setIsAuthenticated(true);
-          const sanitizedUser = sanitizeUser(data.user);
-          setUser(sanitizedUser);
-
-          // Save the sanitized user object to localStorage
-          localStorage.setItem('user', JSON.stringify(sanitizedUser));
-          localStorage.setItem('isAuthenticated', 'true');
-        } else {
-          // Clear localStorage if not authenticated
-          localStorage.removeItem('user');
-          localStorage.removeItem('isAuthenticated');
-          setIsAuthenticated(false);
-        }
-      } catch (err) {
-        console.error('Error fetching current user:', err);
-        // Clear localStorage on error
+        // Save the sanitized user object to localStorage
+        localStorage.setItem('user', JSON.stringify(sanitizedUser));
+        localStorage.setItem('isAuthenticated', 'true');
+      } else {
+        // Clear localStorage if not authenticated
         localStorage.removeItem('user');
         localStorage.removeItem('isAuthenticated');
         setIsAuthenticated(false);
       }
-    };
+    } catch (err) {
+      console.error('Error fetching current user:', err);
+      // Clear localStorage on error
+      localStorage.removeItem('user');
+      localStorage.removeItem('isAuthenticated');
+      setIsAuthenticated(false);
+    }
+  }, []);
+
+  // Re-check authentication status on app load (handles Google login)
+  useEffect(() => {
+    // const fetchCurrentUser = async () => {
+    //   try {
+    //     const response = await fetch(`${BASE_URL}/auth/current-user`, {
+    //       credentials: 'include',
+    //     });
+    //     const data = await response.json();
+    //     if (response.ok) {
+    //       setIsAuthenticated(true);
+    //       const sanitizedUser = sanitizeUser(data.user);
+    //       setUser(sanitizedUser);
+
+    //       // Save the sanitized user object to localStorage
+    //       localStorage.setItem('user', JSON.stringify(sanitizedUser));
+    //       localStorage.setItem('isAuthenticated', 'true');
+    //     } else {
+    //       // Clear localStorage if not authenticated
+    //       localStorage.removeItem('user');
+    //       localStorage.removeItem('isAuthenticated');
+    //       setIsAuthenticated(false);
+    //     }
+    //   } catch (err) {
+    //     console.error('Error fetching current user:', err);
+    //     // Clear localStorage on error
+    //     localStorage.removeItem('user');
+    //     localStorage.removeItem('isAuthenticated');
+    //     setIsAuthenticated(false);
+    //   }
+    // };
 
     if (!isAuthenticated && !user) {
-      fetchCurrentUser();
+      fetchCurrentUser().catch(console.error);
     }
   }, [BASE_URL, isAuthenticated, user]);
 
