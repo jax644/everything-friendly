@@ -54,7 +54,7 @@ class AuthController {
     console.log("Session should be saved:", req.session)
     console.log("Authenticated:", req.isAuthenticated())
     console.log("Redirecting to: dashboard")
-    res.redirect(`${FRONTEND_BASE_URL}/dashboard`);
+    res.redirect(`/dashboard`);
   }
 
   static async logout(req, res) {
