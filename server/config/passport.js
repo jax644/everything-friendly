@@ -49,7 +49,7 @@ passport.use(new GoogleStrategy({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: `${BASE_URL}/auth/google/callback`,
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
-    prompt: "select_account",
+    // prompt: "select_account",
     state: true
   },
   async (accessToken, refreshToken, profile, done) => {
