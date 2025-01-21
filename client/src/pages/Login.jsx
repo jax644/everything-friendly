@@ -73,10 +73,10 @@ function LoginPage () {
         </a>
 
         <br/><br/>
-        <p>Don't have an account? 
-            <a href="/signup"><p>Sign up</p></a>
-            
-        </p>
+        
+        <p>Don't have an account?</p>
+        <a href="/signup"><p>Sign up</p></a>
+        
     </>
   );
 };
