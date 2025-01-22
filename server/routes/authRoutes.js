@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const passport = require('passport');
-const AuthController = require('../controllers/AuthController');
+import { Router } from 'express';
+const router = Router();
+import passport from 'passport';
+import AuthController from '../controllers/AuthController.js';
 
 // Local auth routes
 router.post('/register', AuthController.register);
@@ -27,4 +27,4 @@ router.get('/current-user', (req,res) => {
 
 router.post('/logout', AuthController.logout);
 
-module.exports = router;
+export default router;

@@ -1,6 +1,6 @@
-const { JSDOM } = require("jsdom");
-const sanitizeHtml = require("sanitize-html");
-const RecipeClipper = require("@julianpoy/recipe-clipper");
+import { JSDOM } from "jsdom";
+import sanitizeHtml from "sanitize-html";
+import RecipeClipper from "@julianpoy/recipe-clipper"
 
 // Utility function to check if a string is a valid URL
 function isValidUrl(string) {
@@ -48,7 +48,7 @@ const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL || 'http://localhost:5173';
 
 // Export all utilities and constants
-module.exports = {
+export { 
     isValidUrl,
     clipRecipeFromUrl,
     replaceBrWithBreak,

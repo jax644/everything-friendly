@@ -1,19 +1,19 @@
 
-const puppeteer = require('puppeteer');
-const RecipeClipper = require('@julianpoy/recipe-clipper');
-const jsdom =  require("jsdom");
-const sanitizeHtml = require("sanitize-html");
-const axios = require('axios')
-const Anthropic = require("@anthropic-ai/sdk")
-const { isValidUrl, clipRecipeFromUrl } = require('../utils');
-const User = require('../models/User');
+import puppeteer from 'puppeteer';
+import RecipeClipper from '@julianpoy/recipe-clipper';
+import jsdom from "jsdom";
+import sanitizeHtml from "sanitize-html";
+import axios from 'axios';
+import Anthropic from "@anthropic-ai/sdk";
+import { isValidUrl, clipRecipeFromUrl } from '../utils.js';
+import User from '../models/User.js';
 
 const anthropic = new Anthropic({
     apiKey: process.env.CLAUDE_API_KEY,
     dangerouslyAllowBrowser: true,
 })
 
-exports.parseRecipe = async (req, res) => {
+export async function parseRecipe(req, res) {
     console.log('recipeController.parseRecipe called')
     // Retrieve and validate the input URL
     const { url, preferences } = req.body;
@@ -47,9 +47,9 @@ exports.parseRecipe = async (req, res) => {
         console.error('Error in POST handlers:', error);
         res.status(500).json({ error: 'Error scraping the recipe' });
     }
-};
+}
 
-exports.saveRecipe = async (req, res) => {
+export async function saveRecipe(req, res) {
     console.log('recipeController.saveRecipe called');
     const { userID, recipe, url, preferences } = req.body;
 
@@ -63,7 +63,7 @@ exports.saveRecipe = async (req, res) => {
 
     try {
         // Find the user in the database
-        const user = await User.findById(userID);
+        const user = await findById(userID);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
@@ -77,9 +77,9 @@ exports.saveRecipe = async (req, res) => {
         console.error('Error saving the recipe:', error.message);
         res.status(500).json({ error: 'An error occurred while saving the recipe' });
     }
-};
+}
 
-exports.getRecipes = async (req, res) => {
+export async function getRecipes(req, res) {
     console.log('recipeController.getRecipes called');
     const userID = req.params.userID;
 
@@ -89,7 +89,7 @@ exports.getRecipes = async (req, res) => {
 
     try {
         // Find the user in the database
-        const user = await User.findById(userID);
+        const user = await findById(userID);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
@@ -99,9 +99,9 @@ exports.getRecipes = async (req, res) => {
         console.error('Error getting recipes:', error.message);
         res.status(500).json({ error: 'An error occurred while getting recipes' });
     }
-};
+}
 
-const processWithAnthropic = async (recipeDataJson, preferences) => {
+export async function processWithAnthropic (recipeDataJson, preferences) {
     const prompt = 'You are a recipe assistant who takes in recipes and return modified versions of those recipes based on the user\'s dietary preferences. Please respond with a modified recipe as JSON data in the same format you recieved it. For the ingredients and instructions, please format the values as arrays and not with new lines. Do not include anything other than JSON in your response. No preamble, explanations, or text beyond the JSON structure.  If you encounter a quote to specify inches, please replace it with the word "inch" or "inches". Thank you!'
 
     const response = await anthropic.messages.create({

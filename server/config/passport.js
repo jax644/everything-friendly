@@ -1,9 +1,11 @@
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const bcrypt = require('bcryptjs');
-const User = require('../models/User');
-const { BASE_URL } = require('../utils');
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import bcrypt from 'bcryptjs';
+import User from '../models/User.js';
+import { BASE_URL } from '../utils.js';
+import dotenv from 'dotenv';
+  dotenv.config();
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -77,4 +79,4 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-module.exports = passport;
+export default passport;

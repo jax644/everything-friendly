@@ -1,9 +1,9 @@
-const express=require('express');
-const router=express.Router();
-const homeController=require('../controllers/homeController');
+import { Router } from 'express';
+    const router= Router();
+import { renderHomePage } from '../controllers/homeController.js';
 
 console.log('homeRoutes.js loaded')
 
-router.get('/', homeController.renderHomePage);
+router.get('/', renderHomePage);
 
-module.exports = router;
+export default router;

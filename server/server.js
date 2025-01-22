@@ -1,16 +1,20 @@
-require('dotenv').config()
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const session = require('express-session');
-const { createClient} = require('redis');
-const { RedisStore } = require('connect-redis');
-const passport = require('./config/passport');
-const mongoose = require('mongoose');
-const homeRoutes = require('./routes/homeRoutes');
-const apiRoutes = require('./routes/apiRoutes');
-const authRoutes = require('./routes/authRoutes')
-const {BASE_URL, FRONTEND_BASE_URL} = require('./utils')
+import dotenv from 'dotenv';
+  dotenv.config();
+import express from 'express';
+import cors from 'cors';
+import { fileURLToPath } from 'url';
+import path from 'path';
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+import session from 'express-session';
+import { createClient} from 'redis';
+import { RedisStore } from 'connect-redis';
+import passport from './config/passport.js';
+import mongoose from 'mongoose';
+import homeRoutes from './routes/homeRoutes.js';
+import apiRoutes from './routes/apiRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import {BASE_URL, FRONTEND_BASE_URL} from './utils.js'
 
 const app = express();
 const allowedOrigins = [`${BASE_URL}`, `${FRONTEND_BASE_URL}`];

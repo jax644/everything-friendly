@@ -1,10 +1,11 @@
-const express=require('express');
-const router=express.Router();
-const recipeController=require('../controllers/recipeController');
+import { Router } from 'express';
+    const router= Router();
+// apiRoutes.js
+import { parseRecipe, saveRecipe, getRecipes, processWithAnthropic } from '../controllers/recipeController.js';
 
 console.log('apiRoutes.js loaded')
-router.post('/parse-recipe', recipeController.parseRecipe);
-router.post('/save-recipe', recipeController.saveRecipe);
-router.get('/get-recipes/:userID', recipeController.getRecipes);
+router.post('/parse-recipe', parseRecipe);
+router.post('/save-recipe', saveRecipe);
+router.get('/get-recipes/:userID', getRecipes);
 
-module.exports=router;
+export default router;

@@ -1,6 +1,6 @@
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const { FRONTEND_BASE_URL } = require('../utils');
+import User from '../models/User.js';
+import bcrypt from 'bcryptjs';
+import { FRONTEND_BASE_URL } from '../utils.js';
 
 console.log('AuthController loaded')
 
@@ -13,7 +13,7 @@ class AuthController {
       const { name, email, password } = req.body;
       
       // Check if user already exists
-      const existingUser = await User.findOne({ email: email.toLowerCase() });
+      const existingUser = await findOne({ email: email.toLowerCase() });
       if (existingUser) {
         return res.status(400).json({ message: 'Email already registered' });
       }
@@ -23,7 +23,7 @@ class AuthController {
       const hashedPassword = await bcrypt.hash(password, salt);
 
       // Create user
-      const user = await User.create({
+      const user = await create({
         email: email.toLowerCase(),
         password: hashedPassword,
         name
@@ -101,4 +101,4 @@ class AuthController {
   }
 }
 
-module.exports = AuthController;
+export default AuthController;
