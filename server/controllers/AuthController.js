@@ -48,13 +48,34 @@ class AuthController {
   }
 
   static async googleCallback(req, res) {
-    console.log('googleCallback called')
-    // Successful authentication, redirect to dashboard
+    console.log('googleCallback called');
     console.log("USER SHOULD BE SAVED", req.user);
-    console.log("Session should be saved:", req.session)
-    console.log("Authenticated:", req.isAuthenticated())
-    console.log("Redirecting to: dashboard")
-    res.redirect(`${FRONTEND_BASE_URL}/dashboard`);
+    console.log("Session should be saved:", req.session);
+    console.log("Authenticated:", req.isAuthenticated());
+    
+    if (!req.user) {
+      console.error('No user found in request');
+      return res.redirect(`${FRONTEND_BASE_URL}/login?error=auth_failed`);
+    }
+
+    // Save session before redirect
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error:', err);
+        return res.redirect(`${FRONTEND_BASE_URL}/login?error=session_error`);
+      }
+      
+      // Set an explicit cookie for testing
+      res.cookie('isLoggedIn', 'true', {
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000
+      });
+      
+      console.log("Session saved, redirecting to dashboard");
+      res.redirect(`${FRONTEND_BASE_URL}/dashboard`);
+    });
   }
 
   static async logout(req, res) {
