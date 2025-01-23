@@ -44,7 +44,7 @@ function Dashboard() {
         } else {
             setLoading(false);
         }
-    }, [user]);
+    }, [user, isAuthenticated]);
 
     async function sendCachedRecipe(userID, cachedRecipe, cachedURL, cachedPreferences) {
         try {
