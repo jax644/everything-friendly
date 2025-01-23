@@ -49,60 +49,32 @@ class AuthController {
 
   static async googleCallback(req, res) {
     console.log('googleCallback called')
-    if (!req.user) {
-      return res.redirect('/login?error=Authentication failed');
-    }
-    
-    // Ensure session is saved before redirect
-    req.session.save((err) => {
-      if (err) {
-        console.error('Session save error:', err);
-        return res.redirect('/login?error=Session error');
-      }
-      // Redirect to the frontend dashboard URL
-      res.redirect(`${FRONTEND_BASE_URL}/dashboard`);
-    });
+    // Successful authentication, redirect to dashboard
+    console.log("USER SHOULD BE SAVED", req.user);
+    console.log("Session should be saved:", req.session)
+    console.log("Authenticated:", req.isAuthenticated())
+    console.log("Redirecting to: dashboard")
+    res.redirect(`${FRONTEND_BASE_URL}/dashboard`);
   }
 
   static async logout(req, res) {
-    // Clear the session cookie
     console.log('logout called')
-    console.log(`attemping to clear cookies`)
+    
+    // Clear all auth-related cookies
     res.clearCookie('connect.sid');
-  
-    // Destroy the session on the server side
+    res.clearCookie('G_AUTHUSER_H'); // Clear Google auth cookie
+    
     if (req.session) {
       try {
         console.log('destroying session')
         await req.session.destroy();
         console.log("destroyed success")
         res.status(200).json({ message: 'Logged out successfully' });
-        // res.status(200).json({ message: 'Logged out successfully' });
-        // res.redirect(`/`);
       } catch (err) {
         console.error('Error destroying session:', err);
         return res.status(500).json({ message: 'Failed to log out' });
       }
-
-      // req.session.destroy((err) => {
-      //   if (err) {
-      //     console.error('Error destroying session:', err);
-      //     return res.status(500).json({ message: 'Failed to log out' });
-      //   }
-  
-      //   // Optional: Log the user out using Passport (if applicable)
-      //   if (req.logout) {
-      //     req.logout(function(err) {
-      //       if (err) { return (err); }
-      //       res.redirect('/');
-      //     });
-      //   }
-  
-      //   // Send confirmation to the client
-      //   res.status(200).json({ message: 'Logged out successfully' });
-      // });
     } else {
-      // Fallback in case there's no session to destroy
       res.status(200).json({ message: 'Logged out successfully' });
     }
   }
