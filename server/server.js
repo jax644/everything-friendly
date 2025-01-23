@@ -7,7 +7,7 @@ import path from 'path';
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
 import session from 'express-session';
-import { createClient} from 'redis';
+import { createClient } from 'redis';
 import { RedisStore } from 'connect-redis';
 import passport from './config/passport.js';
 import mongoose from 'mongoose';
@@ -58,6 +58,12 @@ const redisClient = createClient({
   }
 });
 
+const redisStore = new RedisStore({
+  client: redisClient,
+  prefix: 'everything-friendly:',
+});
+  console.log("typeof", typeof RedisStore)
+
 redisClient.on('error', (err) => console.error('Redis Client Error:', err));
 
 (async () => {
@@ -74,25 +80,17 @@ redisClient.on('error', (err) => console.error('Redis Client Error:', err));
   }
 })();
 
-// Redis session store
-// const RedisStore = connectRedis(session);
-// app.use((req, res, next) => {
-//   console.log('Session data2:', req.session);
-//   next();
-// });
-console.log("typeof", typeof RedisStore)
-let redisStore = new RedisStore({ client: redisClient, prefix: "everything-friendly" });
 app.use(
   session({
-    store: new RedisStore({ client: redisClient }),
+    store: redisStore,
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
-      secure: process.env.NODE_ENV === 'production', // Set to true only in production
-      httpOnly: true, // Prevent JavaScript access to the cookie
-      sameSite: 'None',
-      maxAge: 3600000 // 1 hour
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
   })
 );

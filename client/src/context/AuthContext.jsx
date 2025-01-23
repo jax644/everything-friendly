@@ -55,34 +55,34 @@ export function AuthProvider({ children }) {
 
   // Re-check authentication status on app load (handles Google login)
   useEffect(() => {
-    // const fetchCurrentUser = async () => {
-    //   try {
-    //     const response = await fetch(`${BASE_URL}/auth/current-user`, {
-    //       credentials: 'include',
-    //     });
-    //     const data = await response.json();
-    //     if (response.ok) {
-    //       setIsAuthenticated(true);
-    //       const sanitizedUser = sanitizeUser(data.user);
-    //       setUser(sanitizedUser);
+    const fetchCurrentUser = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/auth/current-user`, {
+          credentials: 'include',
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setIsAuthenticated(true);
+          const sanitizedUser = sanitizeUser(data.user);
+          setUser(sanitizedUser);
 
-    //       // Save the sanitized user object to localStorage
-    //       localStorage.setItem('user', JSON.stringify(sanitizedUser));
-    //       localStorage.setItem('isAuthenticated', 'true');
-    //     } else {
-    //       // Clear localStorage if not authenticated
-    //       localStorage.removeItem('user');
-    //       localStorage.removeItem('isAuthenticated');
-    //       setIsAuthenticated(false);
-    //     }
-    //   } catch (err) {
-    //     console.error('Error fetching current user:', err);
-    //     // Clear localStorage on error
-    //     localStorage.removeItem('user');
-    //     localStorage.removeItem('isAuthenticated');
-    //     setIsAuthenticated(false);
-    //   }
-    // };
+          // Save the sanitized user object to localStorage
+          localStorage.setItem('user', JSON.stringify(sanitizedUser));
+          localStorage.setItem('isAuthenticated', 'true');
+        } else {
+          // Clear localStorage if not authenticated
+          localStorage.removeItem('user');
+          localStorage.removeItem('isAuthenticated');
+          setIsAuthenticated(false);
+        }
+      } catch (err) {
+        console.error('Error fetching current user:', err);
+        // Clear localStorage on error
+        localStorage.removeItem('user');
+        localStorage.removeItem('isAuthenticated');
+        setIsAuthenticated(false);
+      }
+    };
 
     if (!isAuthenticated && !user) {
       fetchCurrentUser().catch(console.error);
