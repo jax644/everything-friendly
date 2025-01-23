@@ -9,7 +9,11 @@ router.post('/login', passport.authenticate('local'), AuthController.login);
 
 // Google auth routes
 router.get('/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
+  passport.authenticate('google', { 
+    scope: ['profile', 'email'],
+    prompt: 'select_account',
+    access_type: 'online'
+  })
 );
 
 router.get('/google/callback',
