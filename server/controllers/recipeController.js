@@ -63,7 +63,7 @@ export async function saveRecipe(req, res) {
 
     try {
         // Find the user in the database
-        const user = await findById(userID);
+        const user = await User.findById(userID);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
@@ -89,7 +89,7 @@ export async function getRecipes(req, res) {
 
     try {
         // Find the user in the database
-        const user = await findById(userID);
+        const user = await User.findById(userID);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
