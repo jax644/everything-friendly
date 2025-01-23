@@ -31,18 +31,20 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // CORS configuration
 app.use(
-    cors({
-      origin: (origin, callback) => {
-        // Allow requests with no origin (like mobile apps or Postman)
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'));
-        }
-      },
-      credentials: true, // Allow cookies and credentials
-    })
-  );
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or Postman)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.log('Blocked by CORS:', origin); // Add debugging
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Explicitly specify methods
+  })
+);
 
 // Body parsing middleware
 app.use(express.json());
@@ -80,20 +82,25 @@ redisClient.on('error', (err) => console.error('Redis Client Error:', err));
   }
 })();
 
+// Session configuration
 app.use(
   session({
     store: redisStore,
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    proxy: true, // Add this for secure cookies behind a proxy
     cookie: {
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.NODE_ENV === 'production', // Still true in production
       httpOnly: true,
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-      maxAge: 24 * 60 * 60 * 1000 // 24 hours
-    }
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      domain: process.env.NODE_ENV === 'production' ? 'everything-friendly.onrender.com' : undefined    }
   })
 );
+
+// Add trust proxy setting for secure cookies
+app.set('trust proxy', 1);
 
 // app.use((req, res, next) => {
 //   console.log('Session data3:', req.session);
@@ -111,6 +118,17 @@ app.use(passport.session());
 //   console.log('Session dat5:', req.session);
 //   next();
 // });
+
+// Add after passport.session()
+app.use((req, res, next) => {
+  console.log('Request session info:', {
+    hasSession: !!req.session,
+    sessionID: req.sessionID,
+    isAuthenticated: req.isAuthenticated(),
+    hasUser: !!req.user
+  });
+  next();
+});
 
 // Routes
 app.use('/api', apiRoutes);
