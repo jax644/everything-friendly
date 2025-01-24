@@ -6,4 +6,4 @@ As a user, you can enter the details of a recipe, or simply link to a recipe URL
 
 Check out the demo to see it in action!
 
-![](https://github.com/everything-friendly/EFDemo.gif)
+![](./EFDemo.gif)
