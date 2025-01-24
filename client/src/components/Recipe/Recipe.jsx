@@ -174,9 +174,12 @@ function Recipe({ recipe: propsRecipe, url: propsUrl, preferences: propsPreferen
 
         { state != location.state &&
             <div className="flexed-button-pair">
-                <button id="save-recipe" className="secondary-button" onClick={saveRecipe}>Save recipe</button>
-                    { recipeSaved && <p>Recipe saved successfully!</p> }
-                    { recipeSaveError && <p>Error saving recipe</p> }
+                <div>
+                    <button id="save-recipe" className="secondary-button" onClick={saveRecipe}>Save recipe</button>
+                        { recipeSaved && <p>Recipe saved successfully!</p> }
+                        { recipeSaveError && <p>Error saving recipe</p> }
+                </div>
+                
                 <button id="make-another" onClick={makeAnother}>Make another recipe</button>
             </div>
         }
