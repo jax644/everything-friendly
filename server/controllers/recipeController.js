@@ -106,7 +106,7 @@ export async function processWithAnthropic (recipeDataJson, preferences) {
 
     const response = await anthropic.messages.create({
           model: "claude-3-haiku-20240307",
-          max_tokens: 1024,
+          max_tokens: 2048,
           system: prompt,
           messages: [
             { role: "user", content: `Please give me a version of ${recipeDataJson} that meets my dietary preferences: ${preferences} - Thank you!` },
