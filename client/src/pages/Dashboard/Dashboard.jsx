@@ -22,8 +22,12 @@ function Dashboard() {
   useEffect(() => {
     if (user) {
       const userID = user._id;
-      const cachedRecipe = JSON.parse(localStorage.getItem("cachedRecipe"));
-
+      let cachedRecipe = null;
+      try {
+        cachedRecipe = JSON.parse(localStorage.getItem("cachedRecipe"));
+      } catch (error) {
+        console.error("Error parsing cached recipe data:", error);
+      }
       const fetchAndSendRecipe = async () => {
         try {
           if (cachedRecipe && !recipeSent.current) {
