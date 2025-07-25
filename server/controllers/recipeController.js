@@ -7,7 +7,6 @@ import Anthropic from "@anthropic-ai/sdk";
 import { isValidUrl, clipRecipeFromUrl } from "../utils.js";
 import User from "../models/User.js";
 import Recipe from "../models/Recipe.js";
-import { v4 as uuidv4 } from "uuid";
 
 const anthropic = new Anthropic({
   apiKey: process.env.CLAUDE_API_KEY,
@@ -72,7 +71,6 @@ export async function saveRecipe(req, res) {
 
     // Create new recipe in separate collection
     const newRecipe = new Recipe({
-      id: uuidv4(),
       title: recipe.title,
       imageURL: recipe.imageURL,
       ingredients: recipe.ingredients || [],

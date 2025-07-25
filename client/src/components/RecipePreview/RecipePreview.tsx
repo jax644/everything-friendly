@@ -8,7 +8,7 @@ function RecipePreview({ recipe, index }: { recipe: Recipe; index: number }) {
     <div className="recipe-preview" id={`recipe-preview-${index}`}>
       <Link
         to={{
-          pathname: `/recipe/${recipe.id}`,
+          pathname: `/recipe/${recipe._id}`,
         }}
         state={{
           recipe: recipe,
