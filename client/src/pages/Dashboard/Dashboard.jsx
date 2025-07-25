@@ -23,19 +23,12 @@ function Dashboard() {
     if (user) {
       const userID = user._id;
       const cachedRecipe = JSON.parse(localStorage.getItem("cachedRecipe"));
-      const cachedURL = localStorage.getItem("cachedURL");
-      const cachedPreferences = localStorage.getItem("cachedPreferences");
 
       const fetchAndSendRecipe = async () => {
         try {
           if (cachedRecipe && !recipeSent.current) {
             recipeSent.current = true;
-            await sendCachedRecipe(
-              userID,
-              cachedRecipe,
-              cachedURL,
-              cachedPreferences
-            );
+            await sendCachedRecipe(userID, cachedRecipe);
           }
           await getRecipes();
         } catch (error) {
@@ -51,23 +44,24 @@ function Dashboard() {
     }
   }, [user, isAuthenticated]);
 
-  async function sendCachedRecipe(
-    userID,
-    cachedRecipe,
-    cachedURL,
-    cachedPreferences
-  ) {
+  async function sendCachedRecipe(userID, cachedRecipe) {
     try {
       const response = await axios.post(`${BASE_URL}/api/save-recipe`, {
         userID,
-        recipe: cachedRecipe,
-        url: cachedURL,
-        preferences: cachedPreferences,
+        recipe: {
+          title: cachedRecipe.title,
+          imageURL: cachedRecipe.imageURL,
+          ingredients: cachedRecipe.ingredients,
+          instructions: cachedRecipe.instructions,
+          yield: cachedRecipe.yield,
+          activeTime: cachedRecipe.activeTime,
+          totalTime: cachedRecipe.totalTime,
+        },
+        url: cachedRecipe.url,
+        preferences: cachedRecipe.preferences,
       });
       if (response.status === 200) {
         localStorage.removeItem("cachedRecipe");
-        localStorage.removeItem("cachedURL");
-        localStorage.removeItem("cachedPreferences");
       } else {
         console.error(`Failed to save recipe: ${response.statusText}`);
       }
@@ -94,7 +88,7 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
-      <h1>{user?.name}'s Dashboard</h1>
+      <h1>{user?.name}&apos;s Dashboard</h1>
       <hr />
       <h2>My Recipes</h2>
       <div id="recipe-preview-container" className="flex">

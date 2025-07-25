@@ -1,4 +1,5 @@
-export interface RecipeData {
+export interface Recipe {
+  id: string;
   title: string;
   imageURL: string;
   ingredients?: string[];
@@ -6,11 +7,9 @@ export interface RecipeData {
   yield?: string;
   activeTime?: string;
   totalTime?: string;
-}
-
-export interface Recipe {
-  _id: string;
-  recipe: RecipeData;
   url: string;
   preferences: string;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

@@ -8,22 +8,20 @@ function RecipePreview({ recipe, index }: { recipe: Recipe; index: number }) {
     <div className="recipe-preview" id={`recipe-preview-${index}`}>
       <Link
         to={{
-          pathname: `/recipe/${recipe._id}`,
+          pathname: `/recipe/${recipe.id}`,
         }}
         state={{
-          recipe: recipe.recipe,
-          url: recipe.url,
-          preferences: recipe.preferences,
+          recipe: recipe,
         }}
       >
         <div className="image-container">
           <img
-            src={recipe.recipe.imageURL}
-            alt={recipe.recipe.title}
+            src={recipe.imageURL}
+            alt={recipe.title}
             className="recipe-image"
           />
           <div className="overlay">
-            <h2 className="recipe-title">{recipe.recipe.title}</h2>
+            <h2 className="recipe-title">{recipe.title}</h2>
           </div>
         </div>
       </Link>
