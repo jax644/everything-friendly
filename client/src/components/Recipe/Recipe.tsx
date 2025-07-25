@@ -1,17 +1,28 @@
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import "./Recipe.css";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { BASE_URL } from "../../../utils";
 import { useNavigate } from "react-router-dom";
+import { Recipe as RecipeType } from "../../interfaces/interfaces";
+import {
+  isValidRecipe,
+  getRecipeValidationErrors,
+} from "../../utils/validation";
 
-function Recipe({ theRecipe, makeAnother }) {
+function Recipe({
+  theRecipe,
+  makeAnother,
+}: {
+  theRecipe: RecipeType;
+  makeAnother: () => void;
+}) {
   const location = useLocation();
   const state = location.state || {};
 
   // Use props first, fall back to state from `location`
-  const recipe = theRecipe || state.recipe;
+  const recipe = theRecipe || (state.recipe as RecipeType);
   console.log("recipe", recipe);
 
   const { user } = useContext(AuthContext);
@@ -75,11 +86,35 @@ function Recipe({ theRecipe, makeAnother }) {
     }
   }
 
-  if (!recipe) {
+  // Validate recipe before rendering
+  if (!isValidRecipe(recipe)) {
+    const validationErrors = getRecipeValidationErrors(recipe);
+    console.error("Recipe validation failed:", validationErrors);
+
     return (
       <div>
         <h1>It&apos;s all our fault!</h1>
         <p>Something funky happened. Please try again.</p>
+        {process.env.NODE_ENV === "development" &&
+          validationErrors.length > 0 && (
+            <details
+              style={{
+                marginTop: "1rem",
+                padding: "1rem",
+                backgroundColor: "#f5f5f5",
+                borderRadius: "4px",
+              }}
+            >
+              <summary>Debug Info (Development Only)</summary>
+              <ul style={{ marginTop: "0.5rem" }}>
+                {validationErrors.map((error, index) => (
+                  <li key={index} style={{ color: "#d32f2f" }}>
+                    {error}
+                  </li>
+                ))}
+              </ul>
+            </details>
+          )}
       </div>
     );
   }

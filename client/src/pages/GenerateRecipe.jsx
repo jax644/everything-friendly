@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 import LoadingDisplay from "../components/LoadingDisplay/LoadingDisplay.jsx";
-import Recipe from "../components/Recipe/Recipe.jsx";
+import Recipe from "../components/Recipe/Recipe.tsx";
 import { cleanData } from "../../utils.js";
 import { BASE_URL } from "../../utils.js";
 
