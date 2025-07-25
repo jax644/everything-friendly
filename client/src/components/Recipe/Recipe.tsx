@@ -218,7 +218,12 @@ function Recipe({
         <div id="original-recipe-details" className="flex">
           <p>
             <strong>Original recipe:</strong>
-            <a id="original-recipe-link" href={recipe.url} target="_blank">
+            <a
+              id="original-recipe-link"
+              href={recipe.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Link
             </a>
           </p>
