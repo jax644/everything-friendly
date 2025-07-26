@@ -6,14 +6,7 @@ import React from "react";
 function RecipePreview({ recipe, index }: { recipe: Recipe; index: number }) {
   return (
     <div className="recipe-preview" id={`recipe-preview-${index}`}>
-      <Link
-        to={{
-          pathname: `/recipe/${recipe._id}`,
-        }}
-        state={{
-          recipe: recipe,
-        }}
-      >
+      <Link to={`/recipe/${recipe._id}`}>
         <div className="image-container">
           <img
             src={recipe.imageURL}
