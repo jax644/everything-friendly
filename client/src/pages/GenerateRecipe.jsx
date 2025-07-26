@@ -45,15 +45,6 @@ function GenerateRecipe() {
     }
   }
 
-  // Function to reset the page so that the user can generate another recipe
-  function makeAnother() {
-    setRecipe(null);
-    setUrl("");
-    setFormSubmitted(false);
-    setShowForm(true);
-    setIsLoading(false);
-  }
-
   return (
     <>
       {showForm && (
@@ -95,7 +86,7 @@ function GenerateRecipe() {
 
       {!isLoading && formSumbitted && (
         <>
-          <Recipe theRecipe={recipe} makeAnother={makeAnother} />
+          <Recipe recipeData={recipe} />
         </>
       )}
     </>
