@@ -19,10 +19,22 @@ function Dashboard() {
     }
   }, [isAuthenticated, navigate]);
 
+  // If a user is logged in, we check if they have a cached recipe, send it to the server, and fetch all of their recipes for display
   useEffect(() => {
     if (user) {
       const userID = user._id;
       let cachedRecipe = null;
+      async function getRecipes() {
+        try {
+          if (!user || !user._id) throw new Error("User ID is not available.");
+          const response = await axios.get(
+            `${BASE_URL}/api/get-recipes/${user._id}`
+          );
+          setRecipes(response.data?.recipes.reverse() || []);
+        } catch (error) {
+          console.error("Error fetching recipes:", error);
+        }
+      }
       try {
         cachedRecipe = JSON.parse(localStorage.getItem("cachedRecipe"));
       } catch (error) {
@@ -48,6 +60,7 @@ function Dashboard() {
     }
   }, [user, isAuthenticated]);
 
+  // If a user created a recipe while not logged in, we cache it and send it to the server when they log in
   async function sendCachedRecipe(userID, cachedRecipe) {
     try {
       const response = await axios.post(`${BASE_URL}/api/save-recipe`, {
@@ -71,18 +84,6 @@ function Dashboard() {
       }
     } catch (error) {
       console.error("Error saving cached recipe:", error);
-    }
-  }
-
-  async function getRecipes() {
-    try {
-      if (!user || !user._id) throw new Error("User ID is not available.");
-      const response = await axios.get(
-        `${BASE_URL}/api/get-recipes/${user._id}`
-      );
-      setRecipes(response.data?.recipes.reverse() || []);
-    } catch (error) {
-      console.error("Error fetching recipes:", error);
     }
   }
 
