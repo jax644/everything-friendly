@@ -11,8 +11,6 @@ import {
 } from "../../utils/validation";
 
 function Recipe({ recipeData }: { recipeData: RecipeInterface }) {
-  console.log("recipe", recipeData);
-
   const { user } = useContext(AuthContext);
   let userID = null;
   if (user) {
@@ -79,7 +77,7 @@ function Recipe({ recipeData }: { recipeData: RecipeInterface }) {
   }
 
   // Validate recipe before rendering
-  if (!isValidRecipe(recipeData)) {
+  if (!isValidRecipe(recipeData) && import.meta.env.DEV) {
     const validationErrors = getRecipeValidationErrors(recipeData);
     console.error("Recipe validation failed:", validationErrors);
 
