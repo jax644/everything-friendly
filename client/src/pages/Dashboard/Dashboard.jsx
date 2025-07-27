@@ -87,8 +87,6 @@ function Dashboard() {
     }
   }
 
-  // Get all recipes for the logged in user
-
   if (loading) {
     return <p>Loading...</p>;
   }
