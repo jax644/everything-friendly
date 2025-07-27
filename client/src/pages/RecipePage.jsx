@@ -19,22 +19,18 @@ function RecipePage() {
 
         // Fetch the recipe from the server using the ID
         if (id) {
-          try {
-            const response = await axios.get(`${BASE_URL}/api/recipe/${id}`);
-            setRecipe(response.data);
-          } catch (err) {
-            if (err.response?.status === 404) {
-              setError("Recipe not found");
-            } else {
-              throw err;
-            }
-          }
+          const response = await axios.get(`${BASE_URL}/api/recipe/${id}`);
+          setRecipe(response.data);
         } else {
           setError("No recipe ID provided");
         }
       } catch (err) {
         console.error("Error fetching recipe:", err);
-        setError("Failed to load recipe");
+        if (err.response?.status === 404) {
+          setError("Recipe not found");
+        } else {
+          setError("Failed to load recipe");
+        }
       } finally {
         setLoading(false);
       }
