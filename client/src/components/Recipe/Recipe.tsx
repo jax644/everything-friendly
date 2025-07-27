@@ -77,7 +77,7 @@ function Recipe({ recipeData }: { recipeData: RecipeInterface }) {
   }
 
   // Validate recipe before rendering
-  if (!isValidRecipe(recipeData) && import.meta.env.DEV) {
+  if (!isValidRecipe(recipeData)) {
     const validationErrors = getRecipeValidationErrors(recipeData);
     console.error("Recipe validation failed:", validationErrors);
 
@@ -85,7 +85,7 @@ function Recipe({ recipeData }: { recipeData: RecipeInterface }) {
       <div>
         <h1>It&apos;s all our fault!</h1>
         <p>Something funky happened. Please try again.</p>
-        {validationErrors.length > 0 && (
+        {validationErrors.length > 0 && (import.meta as any).env?.DEV && (
           <details
             style={{
               marginTop: "1rem",
